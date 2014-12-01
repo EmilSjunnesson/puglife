@@ -2215,16 +2215,19 @@ body {
   font-style: italic;
   color: #666;
 }
-html.paradise body {
+html.pug body {
   overflow-y: scroll;
   background-image: url('../../img/summer.jpg');
   background-size: cover;
   background-attachment: fixed;
 }
-html.paradise #navbar {
+html.pug #toolbar {
+  background: red;
+}
+html.pug #navbar {
   font-family: arial, sans-serif;
 }
-html.paradise #wrapper {
+html.pug #wrapper {
   border: 3px solid #E45E9D;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
