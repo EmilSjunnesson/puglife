@@ -1,0 +1,33 @@
+body {
+	font-family: sans-serif;
+}
+
+div[id^="footer-col-"] {
+    text-align: center;
+    color: white;
+    background: orange;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    border-radius: 10px;
+}
+
+h1 {
+	font-family: sans-serif;
+	border-bottom: 3px solid limegreen;
+}
+
+div#sidebar {
+	box-sizing:border-box;
+	border-left: 3px solid red;	
+	padding-left: 1em;
+}
+
+span.red {
+	color: #A94442;
+}
+
+hr {
+	height: 3px;
+	border: none;
+	background: cyan;
+}

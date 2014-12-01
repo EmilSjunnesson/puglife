@@ -1,0 +1,32 @@
+table {
+  width: 100%;
+  border: 1px solid #333333;
+  background: #333333;
+}
+
+th {
+  border: 1px solid #333333;
+  background: #E45E9D;
+  color: white;
+}
+
+td a {
+  color: inherit;
+  text-decoration: none;
+}
+
+td {
+  border: 1px solid #333333;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  background: white;
+}
+
+td.center {
+	text-align: center;
+}
+
+a.inherit {
+	color: inherit;
+	text-decoration: none;
+}

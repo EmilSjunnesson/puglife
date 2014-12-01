@@ -1,0 +1,103 @@
+#wrapper {
+  max-width: 960px;
+  margin: 0 auto; 
+  overflow: hidden;
+  background: white;
+}
+
+#header,
+#navbar,
+#flash,
+#footer {
+    .column(@columns);
+    margin-bottom: @magicNumber;
+}
+ 
+#main {
+    .column(@columns / 3 * 2);
+    margin-bottom: @magicNumber;
+}
+ 
+#sidebar {
+    .column(@columns / 3);
+    margin-bottom: @magicNumber;
+}
+
+div[id^="featured-"], div[id^="triptych-"] {
+    .column(@columns / 3);
+    margin-bottom: @magicNumber;
+}
+ 
+div[id^="footer-col-"] {
+    .column(@columns / 4);
+    margin-bottom: @magicNumber;
+}
+
+#wrap-featured,
+#wrap-main,
+#wrap-triptych,
+#wrap-footer-col {
+    .clearfix();
+}
+
+
+
+/** --------------------------------------------------------------
+ * Style from me pages
+ */
+ 
+body {
+  overflow-y: scroll;
+}
+
+/**
+ * Layout for header
+ */
+#header {
+  position: relative;
+  margin-bottom: 40px;
+  font-family: arial,sans-serif;
+}
+
+.sitetitle {
+  position: absolute;
+  top: 6px;
+  left: 130px;
+  font-size: 48px;
+}
+
+.siteslogan {
+  position: absolute;
+  top: 65px;
+  left: 130px;
+  font-style: italic;
+  color: #666;
+}
+
+
+
+/** --------------------------------------------------------------
+ * Paradise style
+ */
+
+html.paradise {
+
+	body {
+  		overflow-y: scroll;
+  		background-image: url('../../img/summer.jpg');
+  		background-size: cover;
+  		background-attachment: fixed;
+	}
+ 
+	#navbar {
+		font-family: arial,sans-serif;
+	}
+	
+	#wrapper {
+		border: 3px solid #E45E9D;
+		.border-radius(10px);
+		margin-top: 1em;
+		margin-bottom: 1em;
+	}
+	
+}

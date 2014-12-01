@@ -1,0 +1,62 @@
+div.comments {
+  border-top: 1px solid #ccc;
+  margin-top: 2em;	
+}
+
+.comments article header {
+  padding: 0.5em;
+  margin: -0.5em;
+  /*border-bottom: 4px solid #CCCCCC;*/
+  background: #EEEEEE;
+  border-top-right-radius: 7px;
+  border-top-left-radius: 7px;
+}
+
+.comments article footer {
+  clear: both;
+  font-size: 0.7em;
+  background: #ccc;
+  font-weight: bold;
+  padding: 0.5em;
+  margin: -0.7em;
+  color: white;
+  border-bottom-right-radius: 7px;
+  border-bottom-left-radius: 7px;
+  text-align: right
+}
+
+.comments article footer a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.comments span.ago {
+  color: #777;
+  font-size: 0.7em;
+  font-weight: normal;
+}
+
+.comments article {
+  margin-bottom: 1em;
+  background: #fafafa;
+  padding: 0.5em;
+  border-radius: 7px;
+  border: 1px solid #eee;
+  word-wrap: break-word;
+}
+
+.comments article h4 {
+  margin: 0;
+  color: #E45E9D;
+}
+
+.comments article p.web {
+  margin: 0;
+  color: #888;
+  font-size: 0.7em;
+  font-style: italic;
+}
+
+.comments article figure {
+  margin-bottom: 0.5em;	
+}

@@ -1,0 +1,67 @@
+// Make all browsers look the same
+@import "normalize.less";
+
+// Variables to customize
+@import "variables.less";
+
+// Mixins
+@import "mixins.less";
+@import "css3mixins.less";
+
+// Gridlayou
+@import "grid.less";
+
+// Typography
+@import "typography.less";
+
+// Font Awesome
+@import "font-awesome-4.2.0/less/font-awesome.less";
+
+// Border radius
+@import "border-radius.less";
+
+// Add layout and structure
+@import "structure.less";
+
+// Responsive
+@import "responsive.less";
+
+@import "navbar.less";
+
+@import "figure.less";
+
+
+/** --------------------------------------------------------------
+ * Test css
+ */
+
+#wrapper.show-grid {
+    background-image: url('../../img/grid_12_30_20.png') !important;
+    background-repeat: repeat-y;
+    background-size: 960px 22px;
+}
+
+.invis {
+	display: none !important;
+}
+
+div[class^="test-radius-"] {
+	background: purple;
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+	margin-right: 1em;
+}
+
+div.test-radius-left {
+	margin-left: 1em;
+	.border-left-radius(10px);
+}
+
+div.test-radius-top {
+	.border-top-radius(10px);
+}
+
+div.test-radius-right {
+	.border-right-radius(10px);
+}

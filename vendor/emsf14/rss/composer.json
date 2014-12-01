@@ -1,0 +1,21 @@
+{
+"name": "emsf14/rss",
+"type": "library",
+"description": "Simple Pie wrapper",
+"keywords": ["rss", "education","wrapper"],
+"homepage": "https://github.com/EmilSjunnesson/rss",
+"license": "MIT",
+"authors": [
+{
+"name": "Emil Sjunnesson",
+"email": "min.mail@gmail.se",
+"role": "Developer"
+}
+],
+"require": {
+"php": ">=5.4"
+},
+"autoload": {
+"psr-4": { "Emsf14\\": "src/" }
+}
+}
