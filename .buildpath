@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<buildpath>
+	<buildpathentry kind="src" path="3pp/php-markdown"/>
+	<buildpathentry kind="src" path="app/config"/>
+	<buildpathentry kind="src" path="app/src/Comments"/>
+	<buildpathentry kind="src" path="app/src/Dice"/>
+	<buildpathentry kind="src" path="app/src/Dicegame"/>
+	<buildpathentry kind="src" path="app/src/Source"/>
+	<buildpathentry kind="src" path="app/src/Users"/>
+	<buildpathentry kind="src" path="app/view/comment"/>
+	<buildpathentry kind="src" path="app/view/default"/>
+	<buildpathentry kind="src" path="app/view/dice"/>
+	<buildpathentry kind="src" path="app/view/error"/>
+	<buildpathentry kind="src" path="app/view/me"/>
+	<buildpathentry kind="src" path="app/view/users"/>
+	<buildpathentry kind="src" path="app/view/welcome"/>
+	<buildpathentry kind="src" path="src"/>
+	<buildpathentry kind="src" path="test"/>
+	<buildpathentry kind="src" path="theme/anax-base"/>
+	<buildpathentry kind="src" path="theme/anax-grid"/>
+	<buildpathentry kind="src" path="vendor"/>
+	<buildpathentry kind="src" path="webroot"/>
+	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
+</buildpath>
