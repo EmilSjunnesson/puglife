@@ -7,9 +7,9 @@
 require __DIR__.'/config_with_app.php'; 
 
 $app->navbar->configure(ANAX_APP_PATH . 'config/navbar_me.php');
-$app->theme->configure(ANAX_APP_PATH . 'config/theme_me.php');
+$app->theme->configure(ANAX_APP_PATH . 'config/theme-grid.php');
 
-$app->theme->setVariable('title', "Min me-sida i PHPMVC");
+$app->theme->setVariable('title', "Puglife");
 
 $app->url->setUrlType(\Anax\Url\CUrl::URL_CLEAN);
 
@@ -25,10 +25,12 @@ $app->router->add('', function() use ($app, $comments) {
     $byline = $app->fileContent->get('byline.md');
     $byline = $app->textFilter->doFilter($byline, 'shortcode, markdown');
  
-    $app->views->add('me/page', [
-        'content' => $content,
-        'byline' => $byline,
-    ]);
+//     $app->views->add('me/page', [
+//         'content' => $content,
+//         'byline' => $byline,
+//     ]);
+    
+    $app->views->addString($content . $byline, 'main');
     
     // adds comments at the bottom of the page
     $id = md5($app->request->getCurrentUrlWithoutQuery());
