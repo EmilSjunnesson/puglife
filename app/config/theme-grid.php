@@ -25,8 +25,8 @@ return [
             'region'   => 'header', 
             'template' => 'me/header', 
             'data'     => [
-                'siteTitle' => "Min me-sida",
-                'siteTagline' => "En webbplats för kursen PHPMVC",
+                'siteTitle' => "Pug Life",
+                'siteTagline' => "Frågor och svar om mopsar",
             ], 
             'sort'     => -1
         ],
@@ -35,7 +35,7 @@ return [
             'template' => 'me/footer', 
             'data' => [
                 'name' => "Emil Sjunnesson",
-                'email' => "min.mail@gmail.com",
+                'email' => "pug.life@gmail.com",
             ], 
             'sort' => -1
         ],
@@ -49,6 +49,12 @@ return [
             'data' => [], 
             'sort' => -1
         ],
+        [
+        	'region' => 'toolbar',
+        	'template' => 'me/toolbar', 
+            'data' => [],
+       		'sort' => -1
+        ],
     ],
 
 
@@ -61,7 +67,7 @@ return [
         'lang' => 'sv',
 
         // Append this value to each <title>
-        'title_append' => ' | Min me-sida',
+        'title_append' => ' | Pug Life',
 
         // Stylesheets
         'stylesheets' => ['css/anax-grid/style.php'],

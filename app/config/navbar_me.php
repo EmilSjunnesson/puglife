@@ -40,7 +40,7 @@ return [
     	],
         
         // This is a menu item
-        'users'  => [
+        'ausers'  => [
             'text'  => 'Användare',
             'url'   => 'users',
             'title' => 'Hantera användar-databasen',
@@ -102,10 +102,52 @@ return [
         ],
     		
     	// This is a menu item
-   		'source' => [
-   			'text'  =>'Källkod',
-   			'url'   => 'source',
-   			'title' => 'Visa källkod'
+    	'questions'  => [
+    		'text'  => 'Frågor',
+    		'url'   => 'users',
+    		'title' => 'Frågor som användare har ställt',
+    		
+    		// Here we add the submenu, with some menu items, as part of a existing menu item
+    		'submenu' => [
+    		
+    			'items' => [
+    		
+    				// This is a menu item of the submenu
+    				'item 1'  => [
+    					'text'  => 'Ställ en fråga',
+    					'url'   => 'users/add',
+    					'title' => 'Ställ en fråga som andra användare kan svara på'
+    				],
+    			],
+    		],
+    	],
+    		
+    	// This is a menu item
+    	'tags' => [
+    		'text'  =>'Taggar',
+    		'url'   => 'source',
+    		'title' => 'Sök med hjälp av taggar'
+    	],
+    		
+    	// This is a menu item
+    	'users' => [
+    		'text'  =>'Användare',
+    		'url'   => 'source',
+    		'title' => 'Hitta användare'
+    	],
+    		
+    	// This is a menu item
+    	'me' => [
+    		'text'  =>'Min sida',
+    		'url'   => 'source',
+    		'title' => 'Mina senaste frågor och svar'
+    	],
+    		
+    		// This is a menu item
+    	'about' => [
+    		'text'  =>'Om oss',
+    		'url'   => 'source',
+    		'title' => 'Information om Pug Life'
     	],
     ],
  

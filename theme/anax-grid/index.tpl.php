@@ -13,9 +13,14 @@
 
 <body class='<?=!empty($this->request->getRouteClass()) ? $this->request->getRoute() : "index"?>'>
 
-<div id='wrapper' <?= $this->request->getGet('show-grid', 1) ? null : "class='show-grid'" ?>>
+<div id='toolbar'>
+<?php if(isset($toolbar)) echo $toolbar?>
+<?php $this->views->render('toolbar')?>
+</div>
 
-<div id='header' <?= $this->request->getGet('show-grid', 1) ? null : "class='invis'" ?>>
+<div id='wrapper'>
+
+<div id='header'>
 <?php if(isset($header)) echo $header?>
 <?php $this->views->render('header')?>
 </div>
