@@ -67,7 +67,7 @@ return [
         'stylesheets' => ['css/anax-grid/style.php'],
     		
     	// Give page a class for styling
-    	'style_theme' => 'paradise',
+    	'style_theme' => 'pug',
 
         // Inline style
         'style' => null,
