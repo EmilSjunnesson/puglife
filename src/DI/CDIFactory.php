@@ -16,5 +16,11 @@ class CDIFactory extends CDIFactoryDefault
 			$db->connect();
 			return $db;
 		});
+		
+		$this->setShared('users', function() {
+			$users = new \Anax\Users\User();
+			$users->setDI($this);
+			return $users;
+		});
 	}
 }

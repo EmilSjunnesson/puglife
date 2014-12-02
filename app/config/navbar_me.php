@@ -139,7 +139,7 @@ return [
     	// This is a menu item
     	'me' => [
     		'text'  =>'Min sida',
-    		'url'   => 'source',
+    		'url'   => 'users/id',
     		'title' => 'Mina senaste frågor och svar'
     	],
     		
