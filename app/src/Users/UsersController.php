@@ -19,9 +19,6 @@ class UsersController implements \Anax\DI\IInjectionAware
 		$this->di->session();
 		$this->users = new \Anax\Users\User();
 		$this->users->setDI($this->di);
-		// add style sheet
-		$this->theme->addStylesheet('//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css');
-		$this->theme->addStylesheet('css/users.css');
 	}
 	
 	/**
@@ -72,22 +69,31 @@ class UsersController implements \Anax\DI\IInjectionAware
 	 */
 	public function idAction($id = null)
 	{
+		$self = false;
 		$this->session->remove('form-save');
 		if (!isset($id)) {
-			die("Missing id");
+			if ($this->users->isLoggedIn()) {
+				$id = $this->session->get('userId');
+			}
+			$self = true;
 		}
 		
 		$user = $this->users->find($id);
 		
 		if (empty($user)) {
-			die("Missing user");
-		}
-		
-		$this->theme->setTitle("Visa användare");
-		$this->views->add('users/view', [
+			if ($self) {
+				$this->response->redirect($this->url->create('users/login'));
+			} else {
+				$this->theme->setTitle("Visa användare");
+				$this->views->addString('<output>Användaren du söker finns ej</output>', 'main');
+			}
+		} else {
+			$this->theme->setTitle("Visa användare");
+			$this->views->add('users/view', [
 				'user' => $user,
 				'title' => $user->name
-		]);
+			]);
+		}
 	}
 
 	
@@ -437,5 +443,60 @@ class UsersController implements \Anax\DI\IInjectionAware
 				'users' => $all,
 				'title' => "Borttagna användare",
 		]);
+	}
+	
+	
+	
+	/**
+	 * Login form
+	 *
+	 * @return void
+	 */
+	public function loginAction($output = null)
+	{
+		$this->theme->setTitle("Logga in");
+		$this->views->addString('<h1>Logga in</h1>', 'flash');
+		$this->views->add('users/login', [
+				'output' => $output,
+		],
+		'main');
+		$info = "Inte medlem än?<br>Klicka <a href='register'>här</a> för att registrera dig.";
+		$this->views->addString($info, 'sidebar');
+	}
+	
+	
+	
+	/**
+	 * Login user
+	 *
+	 * @return void
+	 */
+	public function loginUserAction() {
+		
+		$isPosted = $this->request->getPost('doLogin');
+		
+		if (!$isPosted) {
+			$this->response->redirect($this->request->getLastUrl());
+		}
+		
+		$user = $this->users->findLogin($this->request->getPost('acronym'), $this->request->getPost('password'));
+		if(isset($user->id)) {
+			$this->session->set('userId', $user->id);
+			$this->response->redirect($this->url->create('users/id'));
+		} else {
+			$this->response->redirect($this->url->create('users/login/denied'));
+		}
+	}
+	
+	
+	
+	/**
+	 * Logout user
+	 *
+	 * @return void
+	 */
+	public function logoutAction() {
+		$this->session->remove('userId');
+		$this->response->redirect($this->url->create(''));
 	}
 }

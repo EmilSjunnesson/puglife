@@ -2220,9 +2220,15 @@ html.pug body {
   background-image: url('../../img/summer.jpg');
   background-size: cover;
   background-attachment: fixed;
+  font-family: helvetica;
 }
 html.pug #toolbar {
-  background: red;
+  text-align: right;
+  background: lightgrey;
+}
+html.pug .contain {
+  max-width: 960px;
+  margin: 0 auto;
 }
 html.pug #navbar {
   font-family: arial, sans-serif;
