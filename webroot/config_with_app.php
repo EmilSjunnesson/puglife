@@ -29,7 +29,7 @@ $di->set('UsersController', function() use ($di) {
 });
 
 $di->set('QuestionsController', function() use ($di) {
-	$controller = new \Anax\Questions\QuestionController();
+	$controller = new \Anax\Questions\QuestionsController();
 	$controller->setDI($di);
 	return $controller;
 });

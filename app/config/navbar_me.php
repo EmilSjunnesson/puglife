@@ -90,7 +90,7 @@ return [
     	// This is a menu item
     	'questions'  => [
     		'text'  => 'Frågor',
-    		'url'   => 'users',
+    		'url'   => 'questions/list',
     		'title' => 'Frågor som användare har ställt',
     		
     		// Here we add the submenu, with some menu items, as part of a existing menu item
@@ -101,7 +101,7 @@ return [
     				// This is a menu item of the submenu
     				'item 1'  => [
     					'text'  => 'Ställ en fråga',
-    					'url'   => 'users/add',
+    					'url'   => 'questions/ask',
     					'title' => 'Ställ en fråga som andra användare kan svara på'
     				],
     			],

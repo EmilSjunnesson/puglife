@@ -243,16 +243,15 @@ class CDatabaseModel implements \Anax\DI\IInjectionAware
 	
 	
 	/**
-	 * Build the where part.
+	 * Build the order by part.
 	 *
-	 * @param string $condition for building the where part of the query.
+	 * @param string $condition for building the order by part of the query.
 	 *
 	 * @return $this
 	 */
 	public function orderBy($condition)
 	{
 		$this->db->orderBy($condition);
-	
 		return $this;
 	}
 	
@@ -268,6 +267,22 @@ class CDatabaseModel implements \Anax\DI\IInjectionAware
 	public function execute($params = [])
 	{
 		$this->db->execute($this->db->getSQL(), $params);
+		$this->db->setFetchModeClass(__CLASS__);
+	
+		return $this->db->fetchAll();
+	}
+	
+	/**
+	 * Execute raw sql.
+	 *
+	 * @param string $sql sql-statment.
+	 * @param array $params parameters.
+	 *
+	 * @return $this
+	 */
+	public function executeRaw($sql, $params = [])
+	{
+		$this->db->execute($sql, $params);
 		$this->db->setFetchModeClass(__CLASS__);
 	
 		return $this->db->fetchAll();
