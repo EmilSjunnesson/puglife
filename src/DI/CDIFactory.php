@@ -22,5 +22,11 @@ class CDIFactory extends CDIFactoryDefault
 			$users->setDI($this);
 			return $users;
 		});
+		
+		$this->setShared('questions', function() {
+			$users = new \Anax\Questions\Question();
+			$users->setDI($this);
+			return $users;
+		});
 	}
 }

@@ -1,3 +1,7 @@
+@font-face {
+  font-family: run;
+  src: url(fonts/run.otf);
+}
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
@@ -2199,25 +2203,25 @@ body {
 }
 #header {
   position: relative;
-  margin-bottom: 40px;
   font-family: arial, sans-serif;
 }
 .sitetitle {
   position: absolute;
-  top: 6px;
-  left: 130px;
-  font-size: 68px;
+  top: 0px;
+  left: 20px;
+  font-size: 98px;
+  font-family: run;
+  color: white;
 }
 .siteslogan {
   position: absolute;
   top: 105px;
-  left: 130px;
+  left: 240px;
   font-style: italic;
 }
 html.pug body {
   overflow-y: scroll;
-  background-image: url('../../img/summer.jpg');
-  background-size: cover;
+  background-image: url('../../img/swirl_pattern.png');
   background-attachment: fixed;
   font-family: helvetica;
 }
@@ -2235,6 +2239,8 @@ html.pug #header {
   height: 150px;
   width: 100%;
   margin-left: 0;
+  color: white;
+  margin-bottom: 0px;
 }
 html.pug #navbar {
   font-family: arial, sans-serif;
@@ -2342,10 +2348,11 @@ html.pug #wrapper {
 }
 #navbar {
   margin-bottom: 44px;
+  width: 100%;
+  margin-left: 0;
 }
 .navbar {
-  background-color: #eee;
-  border-radius: 4px;
+  background-color: #008080;
 }
 .navbar ul {
   list-style: none;
@@ -2355,8 +2362,9 @@ html.pug #wrapper {
 .navbar li {
   display: inline-block;
   border-top: 4px solid transparent;
-  color: #333;
+  color: white;
   position: relative;
+  font-weight: bold;
 }
 .navbar a {
   display: block;
