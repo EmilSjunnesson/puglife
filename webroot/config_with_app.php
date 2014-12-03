@@ -28,4 +28,10 @@ $di->set('UsersController', function() use ($di) {
 	return $controller;
 });
 
+$di->set('QuestionsController', function() use ($di) {
+	$controller = new \Anax\Questions\QuestionController();
+	$controller->setDI($di);
+	return $controller;
+});
+
 $app = new \Anax\MVC\CApplicationBasic($di);

@@ -499,4 +499,82 @@ class UsersController implements \Anax\DI\IInjectionAware
 		$this->session->remove('userId');
 		$this->response->redirect($this->url->create(''));
 	}
+	
+	
+	
+	/**
+	 * Register form
+	 *
+	 * @return void
+	 */
+	public function registerAction($output = null)
+	{
+		$this->theme->setTitle("Registrera dig");
+		$this->views->addString('<h1>Registrera dig</h1>', 'flash');
+		$this->views->add('users/register', [
+				'output' => $output,
+		],
+				'main');
+		$info = "<h3>Villkor</h3>Medlem ansluter sig till Tjänsten genom att acceptera Villkoren och registrera 
+				ett Pug life konto enligt Pug life vid var tid gällande rutiner och villkor. Förutom vad som 
+				anges i dessa Villkor kan ytterligare villkor och bestämmelser komma att gälla för Tjänsten. 
+				Medlemmen förbinder sig att uppmärksamma samt iaktta sådana villkor och bestämmelser vid 
+				nyttjande av Tjänsten samt hålla sig uppdaterad om och iaktta förändringar i dessa. Brott mot 
+				särskilda villkor och bestämmelser för Tjänsten skall även anses utgöra brott mot dessa Villkor. 
+				Pug life tillåter inte betalningar beträffande olaglig verksamhet eller verksamhet som strider 
+				mot Pug life från var tid gällande policy.";
+		$this->views->addString($info, 'sidebar');
+	}
+	
+	
+	
+	/**
+	 * Register user
+	 *
+	 * @return void
+	 */
+	public function registerUserAction() {
+	
+		$isPosted = $this->request->getPost('doRegister');
+	
+		if (!$isPosted) {
+			$this->response->redirect($this->request->getLastUrl());
+		}
+		
+		$acronym = $this->request->getPost('acronym');
+		$name = $this->request->getPost('name');
+		$email = $this->request->getPost('email');
+		$password = $this->request->getPost('password');
+		$confirm = $this->request->getPost('confirm_password');
+		
+		if ($password !== $confirm) {
+			$this->response->redirect($this->url->create('users/register/password'));
+		}
+		
+		$users = $this->users->query('acronym')
+		->execute();
+		$acronyms = null;
+		foreach($users AS $user) {
+			$acronyms[] = $user->acronym;
+		}
+		
+		if(in_array($acronym, $acronyms)) {
+			$this->response->redirect($this->url->create('users/register/acronym'));
+		}
+		
+		$now = date('Y-m-d H:i:s');
+		
+		if($this->users->save([
+				'acronym' => $acronym,
+				'email' => $email,
+				'name' => $name,
+				'password' => md5($password),
+				'created' => $now,
+				'active' => $now,
+		])) {
+			$this->response->redirect($this->url->create('users/login/registerd'));
+		} else {
+			$this->response->redirect($this->url->create('users/register/denied'));
+		}
+	}
 }

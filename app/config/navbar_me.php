@@ -19,13 +19,6 @@ return [
         ],
         
         // This is a menu item
-        'redovisningar'  => [
-            'text'  => 'Redovisningar',
-            'url'   => 'redovisning',
-            'title' => 'Redovisningar'
-        ],
-        
-        // This is a menu item
         'dicegame'  => [
             'text'  => 'Tärningspelet 100',
             'url'   => 'dicegame',
@@ -92,13 +85,6 @@ return [
                     ],
                 ],
             ],
-        ],
- 
-        // This is a menu item
-        'rss' => [
-            'text'  =>'RSS',
-            'url'   => 'rss',
-            'title' => 'Visa RSS-flöde'
         ],
     		
     	// This is a menu item
