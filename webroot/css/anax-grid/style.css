@@ -2621,6 +2621,11 @@ figure.rounded img {
   display: block;
   width: 90%;
 }
+.reply {
+  float: right;
+  display: block;
+  width: 90%;
+}
 #wrapper.show-grid {
   background-image: url('../../img/grid_12_30_20.png') !important;
   background-repeat: repeat-y;

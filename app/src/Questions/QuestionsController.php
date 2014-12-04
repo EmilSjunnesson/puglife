@@ -27,8 +27,6 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 		
 		$this->answercoms = new \Anax\Comments\Answercom();
 		$this->answercoms->setDI($this->di);
-		
-		$this->theme->addStylesheet('css/question_list.css');
 	}
 	
 	
