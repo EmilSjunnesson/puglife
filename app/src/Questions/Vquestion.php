@@ -5,7 +5,7 @@ namespace Anax\Questions;
  * Model for Questions.
  *
  */
-class Question extends \Anax\Database\CDatabaseModel
+class Vquestion extends \Anax\Database\CDatabaseModel
 {
 	/**
 	 * Returns the number of answers the question has.

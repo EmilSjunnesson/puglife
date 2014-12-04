@@ -16,9 +16,22 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 	 */
 	public function initialize()
 	{
-		$this->questions = new \Anax\Questions\Question();
+		$this->questions = new \Anax\Questions\Vquestion();
 		$this->questions->setDI($this->di);
+		
+		$this->questioncoms = new \Anax\Comments\Questioncom();
+		$this->questioncoms->setDI($this->di);
+		
+		$this->answers = new \Anax\Questions\Answer();
+		$this->answers->setDI($this->di);
+		
+		$this->answercoms = new \Anax\Comments\Answercom();
+		$this->answercoms->setDI($this->di);
+		
+		$this->theme->addStylesheet('css/question_list.css');
 	}
+	
+	
 	
 	/**
 	 * First page with links to functions.
@@ -53,11 +66,9 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 		
 		// Get the questions user
 		foreach ($questions as $question) {
-			$user = $this->users->find($question->idUser);
-			$question->nameUser = $user->name;
-			$question->scoreUser = $user->score;
-			$question->emailUser = $user->email;
+			$question = $this->getUser($question);
 			$question->countAnswer = $this->questions->getAnswerCount($question->id);
+			$question->tags = array_combine(explode(',', $question->idTag), explode(',', $question->tag));
 		}
 		
 		$timeAgo = function ($time) {return $this->ago($time);};
@@ -72,6 +83,83 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 	
 	
 	
+	/**
+	 * List question with id.
+	 *
+	 * @param int $id of question to display
+	 *
+	 * @return void
+	 */
+	public function idAction($id = null)
+	{
+		if (!isset($id)) {
+			$this->views->addString('<output>Frågan du söker finns ej</output>', 'main');
+		}
+	
+		$question = $this->questions->find($id);
+	
+		if (empty($question)) {
+			$this->views->addString('<output>Frågan du söker finns ej</output>', 'main');
+		} else {
+			$question = $this->getUser($question);
+			$question->countAnswer = $this->questions->getAnswerCount($question->id);
+			$question->tags = array_combine(explode(',', $question->idTag), explode(',', $question->tag));
+			
+			$comments = $this->questioncoms->query()
+			->where('idQuestion = ?')
+			->execute([$id]);
+			
+			// Get the comments user
+			foreach ($comments as $comment) {
+				$comment = $this->getUser($comment);
+			}
+			
+			$order = 'timestamp';
+			
+			$answers = $this->answers->query()
+			->where('idQuestion = ?')
+			->orderby($order)
+			->execute([$id]);
+			
+			// Get the comments user
+			foreach ($answers as $answer) {
+				$answer = $this->getUser($answer);
+				$answercoms = $this->answercoms->query()
+									->where('idAnswer = ?')
+									->execute([$answer->id]);
+				foreach ($answercoms as $answercom) {
+					$answercom = $this->getUser($answercom);
+				}
+				$answer->comments = $answercoms;
+			}
+			
+			$timeAgo = function ($time) {return $this->ago($time);};
+			
+			$this->theme->setTitle("Visa användare");
+			$this->views->add('questions/view', [
+					'question' => $question,
+					'comments' => $comments,
+					'answers'  => $answers,
+					'timeAgo'  => $timeAgo
+			]);
+		}
+	}
+	
+	
+	
+	/**
+	 * Get the database models user
+	 *
+	 * @return model
+	 */
+	function getUser($model)
+	{
+		$user = $this->users->find($model->idUser);
+		$model->nameUser = $user->name;
+		$model->scoreUser = $user->score;
+		$model->emailUser = $user->email;
+		return $model;
+	}
 	/**
 	 * Get time ago from unix-timestap.
 	 *

@@ -1,24 +1,26 @@
 <h1><?=$title?></h1>
-<?php print_r($questions)?>
-<br>
-<br>
 <?php foreach ($questions as $question) : ?>
-	<article>
-	<header>
+<div class="question">
 	<a name="<?=$question->id?>"></a>
-	<h4><?=$question->title?>
-	<span class="ago">- <?=$timeAgo($question->timestamp)?></span>
-	</h4>
-	</header>
-	<div>
-	<figure class="left">
-		<img src="http://www.gravatar.com/avatar/<?=md5(strtolower(trim($question->emailUser)));?>.jpg?s=50&amp;d=mm" alt="gravatar bild" />
-	</figure>
-	<p><?=$question->content?></p>
+	<div class="numbers">
+		<p><?=$question->rating?><br>betyg</p>
+		<p style="padding-top: 0.125em;"><?=$question->countAnswer?><br>svar</p>
 	</div>
-	<footer>
-	<a href="<?=$this->url->create('comment/edit/' . $question->id)?>">Redigera</a> | 
-	<a href="<?=$this->url->create('comment/remove/' . $question->id)?>">Radera</a>
-	</footer>
-	</article>
+	<h4><a href="<?=$this->url->create('questions/id/' . $question->id)?>"><?=$question->title?></a></h4>
+	<div class=tags>
+	<?php foreach ($question->tags as $id => $tag) : ?>
+	<?php if(!empty($id)) : ?>
+		<a href="<?=$id?>"><?=$tag?></a>
+	<?php endif; ?>
+	<?php endforeach; ?>
+	</div>
+	<div class="user-info">
+		<span class="ago">frågade <?=$timeAgo($question->timestamp)?></span>
+		<div>
+			<img src="http://www.gravatar.com/avatar/<?=md5(strtolower(trim($question->emailUser)));?>.jpg?s=50&amp;d=mm" alt="gravatar bild" />
+			<p><a href="<?=$this->url->create('users/id/' . $question->idUser)?>"><?=$question->nameUser?></a><br>
+			<span class="golden"><i class="fa fa-star"></i></span> <?=$question->scoreUser?></p>
+		</div>
+	</div>	
+</div>
 <?php endforeach; ?>
