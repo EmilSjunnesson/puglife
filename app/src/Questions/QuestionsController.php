@@ -16,7 +16,10 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 	 */
 	public function initialize()
 	{
-		$this->questions = new \Anax\Questions\Vquestion();
+		$this->vquestions = new \Anax\Questions\Vquestion();
+		$this->vquestions->setDI($this->di);
+		
+		$this->questions = new \Anax\Questions\Question();
 		$this->questions->setDI($this->di);
 		
 		$this->questioncoms = new \Anax\Comments\Questioncom();
@@ -51,7 +54,7 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 	public function listAction($order = 'timestamp')
 	{
 		if($order == 'timestamp' || $order == 'rating') {	
-			$questions = $this->questions->query()
+			$questions = $this->vquestions->query()
 			->orderby($order)
 			->execute();
 		} else {
@@ -65,7 +68,7 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 		// Get the questions user
 		foreach ($questions as $question) {
 			$question = $this->getUser($question);
-			$question->countAnswer = $this->questions->getAnswerCount($question->id);
+			$question->countAnswer = $this->vquestions->getAnswerCount($question->id);
 			$question->tags = array_combine(explode(',', $question->idTag), explode(',', $question->tag));
 		}
 		
@@ -88,19 +91,19 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 	 *
 	 * @return void
 	 */
-	public function idAction($id = null)
+	public function idAction($id = null, $order = 'timestamp')
 	{
 		if (!isset($id)) {
 			$this->views->addString('<output>Frågan du söker finns ej</output>', 'main');
 		}
 	
-		$question = $this->questions->find($id);
+		$question = $this->vquestions->find($id);
 	
 		if (empty($question)) {
 			$this->views->addString('<output>Frågan du söker finns ej</output>', 'main');
 		} else {
 			$question = $this->getUser($question);
-			$question->countAnswer = $this->questions->getAnswerCount($question->id);
+			$question->countAnswer = $this->vquestions->getAnswerCount($question->id);
 			$question->tags = array_combine(explode(',', $question->idTag), explode(',', $question->tag));
 			
 			$comments = $this->questioncoms->query()
@@ -111,8 +114,6 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 			foreach ($comments as $comment) {
 				$comment = $this->getUser($comment);
 			}
-			
-			$order = 'timestamp';
 			
 			$answers = $this->answers->query()
 			->where('idQuestion = ?')
@@ -133,13 +134,144 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 			
 			$timeAgo = function ($time) {return $this->ago($time);};
 			
-			$this->theme->setTitle("Visa användare");
+			$this->theme->setTitle($question->title);
 			$this->views->add('questions/view', [
 					'question' => $question,
 					'comments' => $comments,
 					'answers'  => $answers,
 					'timeAgo'  => $timeAgo
 			]);
+		}
+	}
+	
+	
+	
+	/**
+	 * Add comment
+	 *
+	 * @return void
+	 */
+	public function commentAction($id)
+	{	
+		if (!isset($id)) {
+			$this->theme->setTitle("Kommentera");
+			$this->views->addString('<output>Kommentaren misslyckades</output>', 'main');
+		}
+		
+		$isPosted = $this->request->getPost('doComment');
+	
+		if (!$isPosted || !$this->users->isLoggedIn()) {
+			$this->response->redirect($this->url->create('questions/list'));
+		}
+		
+		$model = null;
+		$idType = null;
+		if ($this->request->getPost('type') == 'question') {
+			$model = $this->questioncoms;
+			$idType = 'idQuestion';
+		} elseif ($this->request->getPost('type') == 'answer') {
+			$model = $this->answercoms;
+			$idType = 'idAnswer';
+		}
+		
+		if(empty($model) || empty($idType)) {
+			$this->theme->setTitle("Kommentera");
+			$this->views->addString('<output>Kommentaren misslyckades</output>', 'main');
+		}
+		
+		if($model->save([
+				'content' => $this->request->getPost('content'),
+				'timestamp' => time(),
+				'idUser' => $this->session->get('userId'),
+				$idType => $id,
+		])) {
+			// Todo log in activity
+			$this->response->redirect($this->request->getPost('redirect'));
+		} else {
+			$this->theme->setTitle("Kommentera");
+			$this->views->addString('<output>Kommentaren misslyckades</output>', 'main');
+		}
+	}
+	
+	
+	
+	/**
+	 * Add answer
+	 *
+	 * @return void
+	 */
+	public function answerAction($id)
+	{
+	
+		if (!isset($id)) {
+			$this->theme->setTitle("Svara");
+			$this->views->addString('<output>Svaret misslyckades</output>', 'main');
+		}
+	
+		$isPosted = $this->request->getPost('doAnswer');
+	
+		if (!$isPosted || !$this->users->isLoggedIn()) {
+			$this->response->redirect($this->url->create('questions/list'));
+		}
+	
+		if($this->answers->save([
+				'content' => $this->request->getPost('content'),
+				'timestamp' => time(),
+				'idUser' => $this->session->get('userId'),
+				'idQuestion' => $id,
+		])) {
+			// Todo log in activity
+			$this->response->redirect($this->request->getPost('redirect'));
+		} else {
+			$this->theme->setTitle("Svara");
+			$this->views->addString('<output>Svaret misslyckades</output>', 'main');
+		}
+	}
+	
+	
+	/**
+	 * Ask-form
+	 *
+	 * @return void
+	 */
+	public function askAction()
+	{
+		if ($this->users->isLoggedIn()) {
+			$this->theme->addJavaScript('js/bootstrap-tagsinput.js');
+			$this->theme->setTitle("Ställ en fråga");
+			$this->views->add('questions/ask');
+		} else {
+			$this->response->redirect($this->url->create('users/login/locked'));
+		}
+	}
+	
+	
+	
+	/**
+	 * Save question
+	 *
+	 * @return void
+	 */
+	public function askedAction()
+	{
+		$isPosted = $this->request->getPost('doAsk');
+	
+		if (!$isPosted || !$this->users->isLoggedIn()) {
+			$this->response->redirect($this->url->create('questions/list'));
+		}
+	
+		if($this->questions->save([
+				'title'		=> $this->request->getPost('title'),
+				'content'   => $this->request->getPost('content'),
+				'timestamp' => time(),
+				'idUser'    => $this->session->get('userId'),
+		])) {
+			// Todo log in activity
+			// Todo add tags
+			$this->response->redirect($this->url->create('questions/id/' . $this->questions->lastInsertId()));
+		} else {
+			$this->theme->setTitle("Ställ en fråga");
+			$this->views->addString('<output>Frågan misslyckades</output>', 'main');
 		}
 	}
 	

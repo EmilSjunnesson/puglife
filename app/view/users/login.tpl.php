@@ -6,6 +6,8 @@
     <?php if(!empty($output)) : ?>
     <?php if($output == 'registerd') : ?>
     	<output>Grattis! du är nu medlem på Pug Life, logga in!</output>
+    <?php elseif ($output == 'locked') : ?>
+    	<output>Du måste logga in för att få tillgång till sidan</output>		
     <?php else : ?>
     	<output>Kunde inte logga in, fel användarnamn eller lösenord?</output>
     <?php endif; ?>

@@ -1,4 +1,4 @@
-a:4:{s:4:"root";s:10:"style.less";s:8:"compiled";s:41710:"@font-face {
+a:4:{s:4:"root";s:10:"style.less";s:8:"compiled";s:43124:"@font-face {
   font-family: run;
   src: url(fonts/run.otf);
 }
@@ -2621,10 +2621,75 @@ figure.rounded img {
   display: block;
   width: 90%;
 }
+.comment p {
+  display: inline;
+}
 .reply {
   float: right;
   display: block;
   width: 90%;
+}
+textarea {
+  width: 100%;
+}
+.write-answer textarea {
+  height: 100px;
+}
+.bootstrap-tagsinput {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+  display: inline-block;
+  padding: 4px 6px;
+  margin-bottom: 10px;
+  color: #555;
+  vertical-align: middle;
+  border-radius: 4px;
+  max-width: 100%;
+  line-height: 22px;
+  cursor: text;
+}
+.bootstrap-tagsinput input {
+  border: none;
+  box-shadow: none;
+  outline: none;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  width: auto !important;
+  max-width: inherit;
+}
+.bootstrap-tagsinput input:focus {
+  border: none;
+  box-shadow: none;
+}
+.bootstrap-tagsinput .tag {
+  margin-right: 2px;
+  background-color: #A34141;
+  border-radius: 0.25em;
+  color: #fff;
+  display: inline;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0.2em 0.6em 0.3em;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+.bootstrap-tagsinput .tag [data-role="remove"] {
+  margin-left: 8px;
+  cursor: pointer;
+}
+.bootstrap-tagsinput .tag [data-role="remove"]:after {
+  content: "x";
+  padding: 0px 2px;
+}
+.bootstrap-tagsinput .tag [data-role="remove"]:hover {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.05);
+}
+.bootstrap-tagsinput .tag [data-role="remove"]:hover:active {
+  box-shadow: inset 0 3px 5px rgba(0,0,0,0.125);
 }
 #wrapper.show-grid {
   background-image: url('../../img/grid_12_30_20.png') !important;
@@ -2654,4 +2719,4 @@ div.test-radius-right {
   border-bottom-right-radius: 10px;
   border-top-right-radius: 10px;
 }
-";s:5:"files";a:26:{s:59:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\style.less";i:1417686770;s:63:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\normalize.less";i:1416221842;s:63:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\variables.less";i:1416329542;s:60:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\mixins.less";i:1416231409;s:64:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\css3mixins.less";i:1416231513;s:58:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\grid.less";i:1416325603;s:64:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\typography.less";i:1416232427;s:90:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\font-awesome.less";i:1409050010;s:87:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\variables.less";i:1416303349;s:84:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\mixins.less";i:1409050010;s:82:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\path.less";i:1409050010;s:82:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\core.less";i:1409050010;s:84:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\larger.less";i:1409050010;s:89:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\fixed-width.less";i:1409050010;s:82:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\list.less";i:1409050010;s:93:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\bordered-pulled.less";i:1409050010;s:86:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\spinning.less";i:1409050010;s:93:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\rotated-flipped.less";i:1409050010;s:85:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\stacked.less";i:1409050010;s:83:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\icons.less";i:1409050010;s:67:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\border-radius.less";i:1416306387;s:63:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\structure.less";i:1417697507;s:64:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\responsive.less";i:1416326109;s:60:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\navbar.less";i:1417680507;s:60:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\figure.less";i:1416221213;s:67:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\question_list.less";i:1417714033;}s:7:"updated";i:1417714039;}
+";s:5:"files";a:27:{s:59:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\style.less";i:1417798645;s:63:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\normalize.less";i:1416221842;s:63:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\variables.less";i:1416329542;s:60:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\mixins.less";i:1416231409;s:64:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\css3mixins.less";i:1416231513;s:58:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\grid.less";i:1416325603;s:64:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\typography.less";i:1416232427;s:90:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\font-awesome.less";i:1409050010;s:87:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\variables.less";i:1416303349;s:84:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\mixins.less";i:1409050010;s:82:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\path.less";i:1409050010;s:82:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\core.less";i:1409050010;s:84:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\larger.less";i:1409050010;s:89:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\fixed-width.less";i:1409050010;s:82:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\list.less";i:1409050010;s:93:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\bordered-pulled.less";i:1409050010;s:86:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\spinning.less";i:1409050010;s:93:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\rotated-flipped.less";i:1409050010;s:85:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\stacked.less";i:1409050010;s:83:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\font-awesome-4.2.0\less\icons.less";i:1409050010;s:67:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\border-radius.less";i:1416306387;s:63:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\structure.less";i:1417697507;s:64:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\responsive.less";i:1416326109;s:60:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\navbar.less";i:1417680507;s:60:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\figure.less";i:1416221213;s:67:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\question_list.less";i:1417791674;s:73:"C:\wamp\www\phpmvc\puglife\webroot\css\anax-grid\bootstrap-tagsinput.less";i:1417799302;}s:7:"updated";i:1417799307;}
