@@ -60,6 +60,9 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 // 			$questions = $this->vquestions->query()
 // 			->orderby($order)
 // 			->execute();
+
+			//gör bara nedstående om man vill använda where annars gör ovanstående
+			
 			$sql = 'SELECT q.*
 			FROM puglife_vquestion AS q
 			LEFT OUTER JOIN puglife_question2tag AS q2t
