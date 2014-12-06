@@ -1,5 +1,6 @@
 <div class="question-single">
 	<h1><?=$question->title?></h1>
+	<a name="questionreply"></a>
 	<div class="question-main">
 	<div class="rating">
 		<p><i class="fa fa-sort-asc"></i><br>
@@ -30,7 +31,6 @@
 	</div>
 	<?php endforeach; ?>
 	<div class="reply">
-	<a name="questionreply"></a>
 	<?php if(!$this->users->isLoggedin()) : ?>
 		För att kommentera behöver du <a href="<?=$this->url->create('users/login')?>">logga in</a>.
 		 Inte medlem? <a href="<?=$this->url->create('users/register')?>">Registrera dig</a>. 
@@ -55,6 +55,7 @@
 </header>
 <?php foreach ($answers as $answer) : ?>
 	<div class="question-main">
+	<a name="answerreply<?=$answer->id?>"></a>
 	<div class="rating">
 		<p><i class="fa fa-sort-asc"></i><br>
 			<?=$answer->rating?>
@@ -77,7 +78,6 @@
 	</div>
 	<?php endforeach; ?>
 	<div class="reply">
-	<a name="answerreply<?=$answer->id?>"></a>
 	<?php if(!$this->users->isLoggedin()) : ?>
 		För att kommentera behöver du <a href="<?=$this->url->create('users/login')?>">logga in</a>.
 		 Inte medlem? <a href="<?=$this->url->create('users/register')?>">Registrera dig</a>. 
@@ -100,9 +100,14 @@
 </div>
 <div class="write-answer">
 <h3>Skriv Svar</h3>
+<?php if(!$this->users->isLoggedin()) : ?>
+	För att svara behöver du <a href="<?=$this->url->create('users/login')?>">logga in</a>.
+		 Inte medlem? <a href="<?=$this->url->create('users/register')?>">Registrera dig</a>. 
+<?php else : ?>
 	<form method=post>
 		<input type="hidden" value="<?=$this->request->getCurrentUrlWithoutQuery()?>#bottom" name="redirect"/>
 		<textarea name="content" required></textarea>
 		<input type="submit" value="Skicka svar" name='doAnswer' onClick="this.form.action = '<?=$this->url->create('questions/answer/' . $question->id)?>'"/>
 	</form>
+<?php endif; ?>
 </div>

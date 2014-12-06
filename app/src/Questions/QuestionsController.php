@@ -30,6 +30,9 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 		
 		$this->answercoms = new \Anax\Comments\Answercom();
 		$this->answercoms->setDI($this->di);
+		
+		$this->q2t = new \Anax\Questions\Question2tag();
+		$this->q2t->setDI($this->di);
 	}
 	
 	
@@ -54,9 +57,19 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 	public function listAction($order = 'timestamp')
 	{
 		if($order == 'timestamp' || $order == 'rating') {	
-			$questions = $this->vquestions->query()
-			->orderby($order)
-			->execute();
+// 			$questions = $this->vquestions->query()
+// 			->orderby($order)
+// 			->execute();
+			$sql = 'SELECT q.*
+			FROM puglife_vquestion AS q
+			LEFT OUTER JOIN puglife_question2tag AS q2t
+			ON q.id = q2t.idQuestion
+			INNER JOIN puglife_tag AS t
+			ON q2t.idTag = t.id 
+			GROUP BY q.id';
+			// where t.id innan Grup by
+			// order by efter group by
+			$questions = $this->vquestions->executeRaw($sql);
 		} else {
 			if($order == 'unanswered') {
 				// Hämta unanswered på nåt sätt
@@ -267,8 +280,9 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 				'idUser'    => $this->session->get('userId'),
 		])) {
 			// Todo log in activity
-			// Todo add tags
-			$this->response->redirect($this->url->create('questions/id/' . $this->questions->lastInsertId()));
+			$idQuestion = $this->questions->lastInsertId();
+			$this->q2t->saveTags($idQuestion, $this->request->getPost('tags'));
+			$this->response->redirect($this->url->create('questions/id/' . $idQuestion));
 		} else {
 			$this->theme->setTitle("Ställ en fråga");
 			$this->views->addString('<output>Frågan misslyckades</output>', 'main');
