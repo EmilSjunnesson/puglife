@@ -54,33 +54,33 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 	 *
 	 * @return void
 	 */
-	public function listAction($order = 'timestamp')
+	public function listAction($where = null, $id = null)
 	{
-		if($order == 'timestamp' || $order == 'rating') {	
-// 			$questions = $this->vquestions->query()
-// 			->orderby($order)
-// 			->execute();
-
-			//gör bara nedstående om man vill använda where annars gör ovanstående
-			
-			$sql = 'SELECT q.*
-			FROM puglife_vquestion AS q
-			LEFT OUTER JOIN puglife_question2tag AS q2t
-			ON q.id = q2t.idQuestion
-			INNER JOIN puglife_tag AS t
-			ON q2t.idTag = t.id 
-			GROUP BY q.id';
-			// where t.id innan Grup by
-			// order by efter group by
-			$questions = $this->vquestions->executeRaw($sql);
-		} else {
-			if($order == 'unanswered') {
-				// Hämta unanswered på nåt sätt
-			} else {
-				die('databaseError');
-			}	
-		}
+		$order = 'timestamp';
+		// order = $_GET
 		
+		if (isset($where)) {
+			if (!isset($id)) {
+				die('Missing id');
+			}
+			$sql = 'SELECT q.*
+ 			FROM puglife_vquestion AS q
+ 			LEFT OUTER JOIN puglife_question2tag AS q2t
+ 			ON q.id = q2t.idQuestion
+ 			INNER JOIN puglife_tag AS t
+ 			ON q2t.idTag = t.id
+			WHERE t.id = ' . $id
+ 			. ' GROUP BY q.id
+ 			ORDER BY q.' . $order . ' DESC';
+ 			// where t.id innan Grup by
+ 			// order by efter group by
+ 			$questions = $this->vquestions->executeRaw($sql);
+		} else {
+			$questions = $this->vquestions->query()
+						->orderby($order . ' DESC')
+						->execute();
+		}
+
 		// Get the questions user
 		foreach ($questions as $question) {
 			$question = $this->getUser($question);
