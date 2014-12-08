@@ -6,6 +6,6 @@ return [
     'password'        => "", //p,$75}jH
     'driver_options'  => [PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"],
     'table_prefix'    => "puglife_",
-    'verbose' => true,
+    //'verbose' => true,
     //'debug_connect' => 'true',
 ];
