@@ -33,6 +33,12 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 		
 		$this->q2t = new \Anax\Questions\Question2tag();
 		$this->q2t->setDI($this->di);
+		
+		$this->tags = new \Anax\Questions\Tag();
+		$this->tags->setDI($this->di);
+		
+		$this->activities = new \Anax\Questions\Activity();
+		$this->activities->setDI($this->di);
 	}
 	
 	
@@ -57,7 +63,9 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 	public function listAction($where = null, $id = null)
 	{
 		$order = 'timestamp';
-		// order = $_GET
+		if ($this->request->getGet('rating', 0)) {
+			$order = 'rating';
+		}
 		
 		if (isset($where)) {
 			if (!isset($id)) {
@@ -71,13 +79,11 @@ class QuestionsController implements \Anax\DI\IInjectionAware
  			ON q2t.idTag = t.id
 			WHERE t.id = ' . $id
  			. ' GROUP BY q.id
- 			ORDER BY q.' . $order . ' DESC';
- 			// where t.id innan Grup by
- 			// order by efter group by
+ 			ORDER BY q.' . $order . ' DESC, timestamp DESC';
  			$questions = $this->vquestions->executeRaw($sql);
 		} else {
 			$questions = $this->vquestions->query()
-						->orderby($order . ' DESC')
+						->orderby($order . ' DESC, timestamp DESC')
 						->execute();
 		}
 
@@ -100,6 +106,26 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 	
 	
 	
+	/**
+	 * List all tags.
+	 *
+	 * @return void
+	 */
+	public function tagsAction()
+	{
+		$sql = 'SELECT puglife_tag.*, 
+				COUNT(puglife_question2tag.idQuestion) AS count 
+				FROM puglife_tag JOIN puglife_question2tag 
+				ON puglife_tag.id = puglife_question2tag.idTag 
+				GROUP BY puglife_tag.id 
+				ORDER BY count DESC';
+		$tags = $this->tags->executeRaw($sql);
+		
+		$this->theme->setTitle("Taggar");
+		$this->views->add('questions/tags', [
+				'tags' => $tags,
+		]);
+	}
 	/**
 	 * List question with id.
 	 *
@@ -201,8 +227,9 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 				'idUser' => $this->session->get('userId'),
 				$idType => $id,
 		])) {
-			// Todo log in activity
-			$this->response->redirect($this->request->getPost('redirect'));
+			$this->activities->logActivity($this->request->getPost('type') . 'com' , $model->lastInsertId(), $this->session->get('userId'));
+			$this->addUserScore(1);
+			//$this->response->redirect($this->request->getPost('redirect'));
 		} else {
 			$this->theme->setTitle("Kommentera");
 			$this->views->addString('<output>Kommentaren misslyckades</output>', 'main');
@@ -237,6 +264,8 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 				'idQuestion' => $id,
 		])) {
 			// Todo log in activity
+			$this->activities->logActivity('answer' , $this->answers->lastInsertId(), $this->session->get('userId'));
+			$this->addUserScore(5);
 			$this->response->redirect($this->request->getPost('redirect'));
 		} else {
 			$this->theme->setTitle("Svara");
@@ -283,6 +312,8 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 				'idUser'    => $this->session->get('userId'),
 		])) {
 			// Todo log in activity
+			$this->activities->logActivity('ask' , $this->questions->lastInsertId(), $this->session->get('userId'));
+			$this->addUserScore(1);
 			$idQuestion = $this->questions->lastInsertId();
 			$this->q2t->saveTags($idQuestion, $this->request->getPost('tags'));
 			$this->response->redirect($this->url->create('questions/id/' . $idQuestion));
@@ -290,6 +321,21 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 			$this->theme->setTitle("Ställ en fråga");
 			$this->views->addString('<output>Frågan misslyckades</output>', 'main');
 		}
+	}
+	
+	
+	
+	/**
+	 * Add score on user activity
+	 *
+	 * @return void
+	 */
+	public function addUserScore($points)
+	{
+		$id = $this->session->get('userId');
+		$user = $this->users->find($id);
+		$score = $user->score + $points;
+		$this->db->execute('UPDATE puglife_user SET score = ? WHERE id = ?', [$score, $id]);
 	}
 	
 	

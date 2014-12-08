@@ -10,7 +10,7 @@
 	<div class=tags>
 	<?php foreach ($question->tags as $id => $tag) : ?>
 	<?php if(!empty($id)) : ?>
-		<a href="<?=$id?>"><?=$tag?></a>
+		<a href="<?=$this->url->create('questions/list/tag/' . $id)?>"><?=$tag?></a>
 	<?php endif; ?>
 	<?php endforeach; ?>
 	</div>

@@ -2125,37 +2125,37 @@ hr {
 #footer {
   display: inline;
   float: left;
-  width: 98.333333333333%;
-  margin: 0 0.83333333333333%;
+  width: 96.666666666667%;
+  margin: 0 1.6666666666667%;
   margin-bottom: 22px;
 }
 #main {
   display: inline;
   float: left;
-  width: 65%;
-  margin: 0 0.83333333333333%;
+  width: 63.333333333333%;
+  margin: 0 1.6666666666667%;
   margin-bottom: 22px;
 }
 #sidebar {
   display: inline;
   float: left;
-  width: 31.666666666667%;
-  margin: 0 0.83333333333333%;
+  width: 30%;
+  margin: 0 1.6666666666667%;
   margin-bottom: 22px;
 }
 div[id^="featured-"],
 div[id^="triptych-"] {
   display: inline;
   float: left;
-  width: 31.666666666667%;
-  margin: 0 0.83333333333333%;
+  width: 30%;
+  margin: 0 1.6666666666667%;
   margin-bottom: 22px;
 }
 div[id^="footer-col-"] {
   display: inline;
   float: left;
-  width: 23.333333333333%;
-  margin: 0 0.83333333333333%;
+  width: 21.666666666667%;
+  margin: 0 1.6666666666667%;
   margin-bottom: 22px;
 }
 #wrap-featured,
@@ -2221,13 +2221,14 @@ body {
 }
 html.pug body {
   overflow-y: scroll;
-  background-image: url('../../img/swirl_pattern.png');
+  background-image: url('../../img/pattern.png');
   background-attachment: fixed;
   font-family: helvetica;
 }
 html.pug #toolbar {
   text-align: right;
   background: lightgrey;
+  padding-right: 0.833333%;
 }
 html.pug .contain {
   max-width: 960px;
@@ -2245,14 +2246,6 @@ html.pug #header {
 html.pug #navbar {
   font-family: arial, sans-serif;
 }
-html.pug #wrapper {
-  border: 3px solid #E45E9D;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-  margin-top: 1em;
-  margin-bottom: 1em;
-}
 html.pug .golden {
   color: #C39B00;
 }
@@ -2260,30 +2253,30 @@ html.pug .golden {
   div[id^="footer-col-"] {
     display: inline;
     float: left;
-    width: 98.333333333333%;
-    margin: 0 0.83333333333333%;
+    width: 96.666666666667%;
+    margin: 0 1.6666666666667%;
     margin-bottom: 22px;
   }
   div[id^="featured-"],
   div[id^="triptych-"] {
     display: inline;
     float: left;
-    width: 98.333333333333%;
-    margin: 0 0.83333333333333%;
+    width: 96.666666666667%;
+    margin: 0 1.6666666666667%;
     margin-bottom: 22px;
   }
   #main {
     display: inline;
     float: left;
-    width: 98.333333333333%;
-    margin: 0 0.83333333333333%;
+    width: 96.666666666667%;
+    margin: 0 1.6666666666667%;
     margin-bottom: 22px;
   }
   #sidebar {
     display: inline;
     float: left;
-    width: 98.333333333333%;
-    margin: 0 0.83333333333333%;
+    width: 96.666666666667%;
+    margin: 0 1.6666666666667%;
     margin-bottom: 22px;
   }
 }
@@ -2291,30 +2284,30 @@ html.pug .golden {
   div[id^="footer-col-"] {
     display: inline;
     float: left;
-    width: 48.333333333333%;
-    margin: 0 0.83333333333333%;
+    width: 46.666666666667%;
+    margin: 0 1.6666666666667%;
     margin-bottom: 22px;
   }
   div[id^="featured-"],
   div[id^="triptych-"] {
     display: inline;
     float: left;
-    width: 98.333333333333%;
-    margin: 0 0.83333333333333%;
+    width: 96.666666666667%;
+    margin: 0 1.6666666666667%;
     margin-bottom: 22px;
   }
   #main {
     display: inline;
     float: left;
-    width: 98.333333333333%;
-    margin: 0 0.83333333333333%;
+    width: 96.666666666667%;
+    margin: 0 1.6666666666667%;
     margin-bottom: 22px;
   }
   #sidebar {
     display: inline;
     float: left;
-    width: 98.333333333333%;
-    margin: 0 0.83333333333333%;
+    width: 96.666666666667%;
+    margin: 0 1.6666666666667%;
     margin-bottom: 22px;
   }
 }
@@ -2322,30 +2315,30 @@ html.pug .golden {
   div[id^="footer-col-"] {
     display: inline;
     float: left;
-    width: 23.333333333333%;
-    margin: 0 0.83333333333333%;
+    width: 21.666666666667%;
+    margin: 0 1.6666666666667%;
     margin-bottom: 22px;
   }
   div[id^="featured-"],
   div[id^="triptych-"] {
     display: inline;
     float: left;
-    width: 31.666666666667%;
-    margin: 0 0.83333333333333%;
+    width: 30%;
+    margin: 0 1.6666666666667%;
     margin-bottom: 22px;
   }
   #main {
     display: inline;
     float: left;
-    width: 65%;
-    margin: 0 0.83333333333333%;
+    width: 63.333333333333%;
+    margin: 0 1.6666666666667%;
     margin-bottom: 22px;
   }
   #sidebar {
     display: inline;
     float: left;
-    width: 31.666666666667%;
-    margin: 0 0.83333333333333%;
+    width: 30%;
+    margin: 0 1.6666666666667%;
     margin-bottom: 22px;
   }
 }
@@ -2526,13 +2519,14 @@ figure.rounded img {
   bottom: 25px;
   left: 65px;
 }
-.question .tags a {
+.tags a {
   display: inline-block;
   background: #EFCBCB;
   padding: 0.1em 0.5em;
   color: #A34141;
   border-right: 1px solid #D68080;
   border-bottom: 1px solid #D68080;
+  text-decoration: none;
 }
 .tags a:HOVER {
   text-decoration: none;
@@ -2566,6 +2560,9 @@ figure.rounded img {
   text-align: center;
   height: 100%;
   width: 10%;
+  font-size: xx-large;
+  line-height: 1px;
+  padding-top: 0.2em;
 }
 .question-single .tags {
   float: right;

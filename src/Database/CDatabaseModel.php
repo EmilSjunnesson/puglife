@@ -258,6 +258,22 @@ class CDatabaseModel implements \Anax\DI\IInjectionAware
 	
 	
 	/**
+	 * Build the inner join part.
+	 *
+	 * @param string $table     name of table.
+	 * @param string $condition to join.
+	 *
+	 * @return $this
+	 */
+	public function join($table, $condition)
+	{
+		$this->db->join($table, $condition);
+		return $this;
+	}
+	
+	
+	
+	/**
 	 * Execute the query built.
 	 *
 	 * @param string $query custom query.

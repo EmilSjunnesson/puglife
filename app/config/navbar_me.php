@@ -42,14 +42,14 @@ return [
     	// This is a menu item
     	'tags' => [
     		'text'  =>'Taggar',
-    		'url'   => 'source',
+    		'url'   => 'questions/tags',
     		'title' => 'Sök med hjälp av taggar'
     	],
     		
     	// This is a menu item
     	'users' => [
     		'text'  =>'Användare',
-    		'url'   => 'source',
+    		'url'   => 'users/list',
     		'title' => 'Hitta användare'
     	],
     		
@@ -63,7 +63,7 @@ return [
     		// This is a menu item
     	'about' => [
     		'text'  =>'Om oss',
-    		'url'   => 'source',
+    		'url'   => 'about',
     		'title' => 'Information om Pug Life'
     	],
     ],

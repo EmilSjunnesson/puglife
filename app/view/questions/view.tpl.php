@@ -3,15 +3,15 @@
 	<a name="questionreply"></a>
 	<div class="question-main">
 	<div class="rating">
-		<p><i class="fa fa-sort-asc"></i><br>
+		<p><?=$this->users->isLoggedin() ? '<a href="' . $this->url->create('questions/vote/question/' . $question->id . '/up') . '">' : null ?><i class="fa fa-sort-asc"></i><?=$this->users->isLoggedin() ? '</a>' : null ?><br>
 			<?=$question->rating?>
-		<br><i class="fa fa-sort-desc"></i></p>
+		<br><?=$this->users->isLoggedin() ? '<a href="' . $this->url->create('questions/vote/question/' . $question->id . '/down') . '">' : null ?><i class="fa fa-sort-desc"></i><?=$this->users->isLoggedin() ? '</a>' : null ?></p>
 	</div>
 	<div class="content"><?=$this->textFilter->doFilter($question->content, 'markdown')?></div>
 	<div class=tags>
 	<?php foreach ($question->tags as $id => $tag) : ?>
 	<?php if(!empty($id)) : ?>
-		<a href="<?=$id?>"><?=$tag?></a>
+		<a href="<?=$this->url->create('questions/list/tag/' . $id)?>"><?=$tag?></a>
 	<?php endif; ?>
 	<?php endforeach; ?>
 	</div>
@@ -27,7 +27,12 @@
 	<div class="comments">
 	<?php foreach ($comments as $comment) : ?>
 	<div class="comment">
-	<?=($comment->rating > 0 ? '<span class="comment-rating">+' . $comment->rating . '</span> ' : null) . $this->textFilter->doFilter($comment->content, 'markdown') . ' – <a href="' . $this->url->create('users/id/' . $comment->idUser) . '">' . $comment->nameUser . '</a> ' . $timeAgo($comment->timestamp)?>
+	<?=($this->users->isLoggedin() ? '<a href="' . $this->url->create('questions/vote/questioncom/' . $comment->id . '/up')
+	 . '"><i class="fa fa-thumbs-up"></i></a> | ' : null)
+	 . ($comment->rating > 0 ? '<span class="comment-rating">+' . $comment->rating . ' | </span> ' : null)
+	 . $this->textFilter->doFilter($comment->content, 'markdown') . ' – <a href="'
+	 . $this->url->create('users/id/' . $comment->idUser) . '">' . $comment->nameUser . '</a> '
+	 . $timeAgo($comment->timestamp)?>
 	</div>
 	<?php endforeach; ?>
 	<div class="reply">
@@ -57,9 +62,9 @@
 	<div class="question-main">
 	<a name="answerreply<?=$answer->id?>"></a>
 	<div class="rating">
-		<p><i class="fa fa-sort-asc"></i><br>
+		<p><?=$this->users->isLoggedin() ? '<a href="' . $this->url->create('questions/vote/answer/' . $answer->id . '/up') . '">' : null ?><i class="fa fa-sort-asc"></i><?=$this->users->isLoggedin() ? '</a>' : null ?><br>
 			<?=$answer->rating?>
-		<br><i class="fa fa-sort-desc"></i></p>
+		<br><?=$this->users->isLoggedin() ? '<a href="' . $this->url->create('questions/vote/answer/' . $answer->id . '/down') . '">' : null ?><i class="fa fa-sort-desc"></i><?=$this->users->isLoggedin() ? '</a>' : null ?></p>
 	</div>
 	<div class="content"><?=$this->textFilter->doFilter($answer->content, 'markdown')?></div>
 	<div class="user-info">
@@ -74,7 +79,12 @@
 	<div class="comments">
 	<?php foreach ($answer->comments as $comment) : ?>
 	<div class="comment">
-	<?=($comment->rating > 0 ? '<span class="comment-rating">+' . $comment->rating . '</span> ' : null) . $this->textFilter->doFilter($comment->content, 'markdown') . ' – <a href="' . $this->url->create('users/id/' . $comment->idUser) . '">' . $comment->nameUser . '</a> ' . $timeAgo($comment->timestamp)?>
+	<?=($this->users->isLoggedin() ? '<a href="' . $this->url->create('questions/vote/answercom/' . $comment->id . '/up')
+	 . '"><i class="fa fa-thumbs-up"></i></a> | ' : null)
+	 . ($comment->rating > 0 ? '<span class="comment-rating">+' . $comment->rating . ' | </span> ' : null)
+	 . $this->textFilter->doFilter($comment->content, 'markdown') . ' – <a href="'
+	 . $this->url->create('users/id/' . $comment->idUser) . '">' . $comment->nameUser . '</a> '
+	 . $timeAgo($comment->timestamp)?>
 	</div>
 	<?php endforeach; ?>
 	<div class="reply">

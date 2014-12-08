@@ -37,46 +37,13 @@ $app->router->add('', function() use ($app, $comments) {
     $comments->displayComments($id);
 
 });
- 
-$app->router->add('redovisning', function() use ($app) {
-                
-    $app->theme->setTitle("Redovisning");
- 
-    $content = $app->fileContent->get('redovisning.md');
-    $content = $app->textFilter->doFilter($content, 'shortcode, markdown');
- 
-    $byline = $app->fileContent->get('byline.md');
-    $byline = $app->textFilter->doFilter($byline, 'shortcode, markdown');
- 
-    $app->views->add('me/page', [
-        'content' => $content,
-        'byline' => $byline,
-    ]);
- 
+
+$app->router->add('about', function() use ($app) {
+	
+	$app->theme->setTitle("Om oss");
+	
 });
 
-$app->router->add('dicegame', function() use ($app, $comments) {
-                
-    $app->theme->setTitle("Tärningspelet 100");
-    $app->theme->addStylesheet('css/dice_game.css');
- 
-    $game = new \Emsf14\Dicegame\CDiceDisplay($_GET, $app->session);
-    $content = $game->PrintHTML();
- 
-    $byline = $app->fileContent->get('byline.md');
-    $byline = $app->textFilter->doFilter($byline, 'shortcode, markdown');
- 
-    $app->views->add('me/page', [
-        'content' => $content,
-        'byline' => $byline,
-    ]);
-    
-    // adds comments at the bottom of the page
-    $id = md5($app->request->getCurrentUrlWithoutQuery());
-    $comments->displayComments($id);
-
-});
- 
 $app->router->add('source', function() use ($app) {
                 
     $app->theme->addStylesheet('css/source.css');
