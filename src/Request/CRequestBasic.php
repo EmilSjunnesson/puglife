@@ -268,6 +268,21 @@ class CRequestBasic
     
     
     /**
+     * Get the last url without querystring.
+     *
+     * @return string as current url without querystring.
+     */
+    public function getLastUrlWithoutQuery()
+    {
+    	$without_url = explode("?", $this->getLastUrl());
+    	$return = substr($without_url[0], -1) == '/' ? substr_replace($without_url[0], "", -1) : $without_url[0];
+    	 
+    	return $return;
+    }
+    
+    
+    
+    /**
      * Get a value from the _SERVER array and use default if it is not set.
      *
      * @param string $key     to check if it exists in the $_SERVER variable

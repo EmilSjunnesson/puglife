@@ -41,10 +41,10 @@
 		 Inte medlem? <a href="<?=$this->url->create('users/register')?>">Registrera dig</a>. 
 	<?php else : ?>
 	<?php if (!$this->request->getGet('questioncom') == true) : ?>
-		<a href="?questioncom=true#questionreply">skriv kommentar</a>
+		<a href="?<?=$this->request->getGet('rating', 0) ? 'rating=true&' : null?>questioncom=true#questionreply">skriv kommentar</a>
 	<?php else : ?>
 		<form method=post>
-			<input type="hidden" value="<?=$this->request->getCurrentUrlWithoutQuery()?>#questionreply" name="redirect"/>
+			<input type="hidden" value="<?=$this->request->getCurrentUrlWithoutQuery()?><?=$this->request->getGet('rating', 0) ? '?rating=true' : null?>#questionreply" name="redirect"/>
 			<input type="hidden" value="question" name="type"/>
 			<textarea name="content" required></textarea>
 			<input type="submit" value="Kommentera" name='doComment' onClick="this.form.action = '<?=$this->url->create('questions/comment/' . $question->id)?>'"/>
@@ -64,7 +64,15 @@
 	<div class="rating">
 		<p><?=$this->users->isLoggedin() ? '<a href="' . $this->url->create('questions/vote/answer/' . $answer->id . '/up') . '">' : null ?><i class="fa fa-sort-asc"></i><?=$this->users->isLoggedin() ? '</a>' : null ?><br>
 			<?=$answer->rating?>
-		<br><?=$this->users->isLoggedin() ? '<a href="' . $this->url->create('questions/vote/answer/' . $answer->id . '/down') . '">' : null ?><i class="fa fa-sort-desc"></i><?=$this->users->isLoggedin() ? '</a>' : null ?></p>
+		<br><?=$this->users->isLoggedin() ? '<a href="' . $this->url->create('questions/vote/answer/' . $answer->id . '/down') . '">' : null ?><i class="fa fa-sort-desc"></i><?=$this->users->isLoggedin() ? '</a>' : null ?><br>
+			<?php if ($answer->accepted == true) : ?>
+				<span class="accept-green" title="Frågeställaren har accpeterat detta svar"><i class="fa fa-check"></i></span>
+			<?php else : ?>
+			<?php if ((!$question->hasAcceptedAnswer == true) && ($question->idUser === $this->session->get('userId'))) : ?>
+				<span class="accept-link" title="Acceptera detta svar"><a href="<?=$this->url->create('questions/accept/' . $answer->id)?>"><i class="fa fa-check"></i></a></span>
+			<?php endif; ?>
+			<?php endif; ?>
+		</p>
 	</div>
 	<div class="content"><?=$this->textFilter->doFilter($answer->content, 'markdown')?></div>
 	<div class="user-info">
@@ -93,10 +101,10 @@
 		 Inte medlem? <a href="<?=$this->url->create('users/register')?>">Registrera dig</a>. 
 	<?php else : ?>
 	<?php if (!$this->request->getGet('answercom' . $answer->id) == true) : ?>
-		<a href="?answercom<?=$answer->id?>=true#answerreply<?=$answer->id?>">skriv kommentar</a>
+		<a href="?<?=$this->request->getGet('rating', 0) ? 'rating=true&' : null?>answercom<?=$answer->id?>=true#answerreply<?=$answer->id?>">skriv kommentar</a>
 	<?php else : ?>
 		<form method=post>
-			<input type="hidden" value="<?=$this->request->getCurrentUrlWithoutQuery()?>#answerreply<?=$answer->id?>" name="redirect"/>
+			<input type="hidden" value="<?=$this->request->getCurrentUrlWithoutQuery()?><?=$this->request->getGet('rating', 0) ? '?rating=true' : null?>#answerreply<?=$answer->id?>" name="redirect"/>
 			<input type="hidden" value="answer" name="type"/>
 			<textarea name="content" required></textarea>
 			<input type="submit" value="Kommentera" name='doComment' onClick="this.form.action = '<?=$this->url->create('questions/comment/' . $answer->id)?>'"/>
@@ -115,9 +123,12 @@
 		 Inte medlem? <a href="<?=$this->url->create('users/register')?>">Registrera dig</a>. 
 <?php else : ?>
 	<form method=post>
-		<input type="hidden" value="<?=$this->request->getCurrentUrlWithoutQuery()?>#bottom" name="redirect"/>
+		<input type="hidden" value="<?=$this->request->getCurrentUrlWithoutQuery()?><?=$this->request->getGet('rating', 0) ? '?rating=true' : null?>#bottom" name="redirect"/>
 		<textarea name="content" required></textarea>
 		<input type="submit" value="Skicka svar" name='doAnswer' onClick="this.form.action = '<?=$this->url->create('questions/answer/' . $question->id)?>'"/>
 	</form>
 <?php endif; ?>
 </div>
+<?php if (isset($popup)) : ?>
+	<script type='text/javascript'>alert('Du kan bara rösta en gång!');var url = document.URL;window.location = url.replace("/denied", "");</script>;
+<?php endif; ?>

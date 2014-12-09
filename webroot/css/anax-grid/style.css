@@ -2249,6 +2249,9 @@ html.pug #navbar {
 html.pug .golden {
   color: #C39B00;
 }
+html.pug .accept-green {
+  color: #46B525;
+}
 @media (max-width: 767px) {
   div[id^="footer-col-"] {
     display: inline;

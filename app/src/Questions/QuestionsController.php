@@ -133,7 +133,7 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 	 *
 	 * @return void
 	 */
-	public function idAction($id = null, $order = 'timestamp')
+	public function idAction($id = null, $popup = null)
 	{
 		if (!isset($id)) {
 			$this->views->addString('<output>Frågan du söker finns ej</output>', 'main');
@@ -150,6 +150,7 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 			
 			$comments = $this->questioncoms->query()
 			->where('idQuestion = ?')
+			->orderBy('timestamp DESC')
 			->execute([$id]);
 			
 			// Get the comments user
@@ -157,16 +158,24 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 				$comment = $this->getUser($comment);
 			}
 			
+			$order = 'timestamp';
+			if ($this->request->getGet('rating', 0)) {
+				$order = 'rating';
+			}
+			
 			$answers = $this->answers->query()
 			->where('idQuestion = ?')
-			->orderby($order)
+			->orderby('accepted DESC, ' . $order . ' DESC, timestamp DESC')
 			->execute([$id]);
+			
+			$question->hasAcceptedAnswer = $this->getHasAcceptedAnswer($answers);
 			
 			// Get the comments user
 			foreach ($answers as $answer) {
 				$answer = $this->getUser($answer);
 				$answercoms = $this->answercoms->query()
 									->where('idAnswer = ?')
+									->orderBy('timestamp DESC')
 									->execute([$answer->id]);
 				foreach ($answercoms as $answercom) {
 					$answercom = $this->getUser($answercom);
@@ -181,7 +190,8 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 					'question' => $question,
 					'comments' => $comments,
 					'answers'  => $answers,
-					'timeAgo'  => $timeAgo
+					'timeAgo'  => $timeAgo,
+					'popup'    => $popup
 			]);
 		}
 	}
@@ -228,8 +238,8 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 				$idType => $id,
 		])) {
 			$this->activities->logActivity($this->request->getPost('type') . 'com' , $model->lastInsertId(), $this->session->get('userId'));
-			$this->addUserScore(1);
-			//$this->response->redirect($this->request->getPost('redirect'));
+			$this->addUserScore(1, $this->session->get('userId'));
+			$this->response->redirect($this->request->getPost('redirect'));
 		} else {
 			$this->theme->setTitle("Kommentera");
 			$this->views->addString('<output>Kommentaren misslyckades</output>', 'main');
@@ -265,7 +275,7 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 		])) {
 			// Todo log in activity
 			$this->activities->logActivity('answer' , $this->answers->lastInsertId(), $this->session->get('userId'));
-			$this->addUserScore(5);
+			$this->addUserScore(5, $this->session->get('userId'));
 			$this->response->redirect($this->request->getPost('redirect'));
 		} else {
 			$this->theme->setTitle("Svara");
@@ -313,7 +323,7 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 		])) {
 			// Todo log in activity
 			$this->activities->logActivity('ask' , $this->questions->lastInsertId(), $this->session->get('userId'));
-			$this->addUserScore(1);
+			$this->addUserScore(1, $this->session->get('userId'));
 			$idQuestion = $this->questions->lastInsertId();
 			$this->q2t->saveTags($idQuestion, $this->request->getPost('tags'));
 			$this->response->redirect($this->url->create('questions/id/' . $idQuestion));
@@ -324,18 +334,87 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 	}
 	
 	
+	/**
+	 * Vote on comment, answer or question
+	 *
+	 * @return void
+	 */
+	public function voteAction($type, $id, $direction)
+	{
+		$lastUrl = $this->request->getLastUrl();
+		$res = $this->activities->query()
+			  	                ->where('type = ?')
+			        			->andWhere('idType = ?')
+			        			->andWhere('idUser = ?')
+			        			->execute([$type . 'vote' . $direction, $id, $this->session->get('userId')]);
+		if (empty($res)) {
+			$this->activities->logActivity($type . 'vote' . $direction, $id, $this->session->get('userId'));
+			$this->addUserScore(1, $this->session->get('userId'));
+			$model = $type . 's';
+			$element = $this->$model->find($id);
+			if ($direction === 'up') {
+				$element->save([
+				'rating' => $element->rating + 1,
+				]);
+				$this->addUserScore(1, $element->idUser);
+			} elseif ($direction === 'down') {
+				$element->save([
+				'rating' => $element->rating - 1,
+				]);
+				$this->addUserScore(-1, $element->idUser);
+			}
+		} else {
+			$lastUrl = $this->request->getLastUrlWithoutQuery() . '/denied';
+			if (!empty(parse_url($this->request->getLastUrl(), PHP_URL_QUERY))) {
+				$lastUrl = $lastUrl . '?' . parse_url($this->request->getLastUrl(), PHP_URL_QUERY);
+			}
+		}
+		if($type == 'answercom') {
+			$idParent = $this->answercoms->find($id);
+			$hash = 'answerreply' . $idParent->idAnswer;
+		} elseif ($type == 'questioncom') {
+			$idParent = $this->questioncoms->find($id);
+			$hash = 'questionreply' . $idParent->idQuestion;
+		} else {
+			$hash = $type . 'reply' . $id;
+		}
+		$this->response->redirect($lastUrl . '#' . $hash);
+	}
+	
+	
+	/**
+	 * Mark answer as accepted
+	 *
+	 * @return void
+	 */
+	public function acceptAction($id)
+	{
+		$answer = $this->answers->find($id);
+		$answer->save([
+			'accepted' => 1,	
+		]);
+		$this->addUserScore(1, $this->session->get('userId'));
+		$this->addUserScore(10, $answer->idUser);
+		$this->activities->logActivity('accepted' , $answer->id, $this->session->get('userId'));
+		$this->response->redirect($this->request->getLastUrl() . '#answerreply' . $answer->id);
+	}
 	
 	/**
 	 * Add score on user activity
 	 *
 	 * @return void
 	 */
-	public function addUserScore($points)
+	public function addUserScore($points, $idUser)
 	{
-		$id = $this->session->get('userId');
-		$user = $this->users->find($id);
-		$score = $user->score + $points;
-		$this->db->execute('UPDATE puglife_user SET score = ? WHERE id = ?', [$score, $id]);
+		$user = $this->users->find($idUser);
+
+		if($points === -1) {
+			$points = abs($points);
+			$score = $user->score - $points;
+		} else {
+			$score = $user->score + $points;
+		}
+		$this->db->execute('UPDATE puglife_user SET score = ? WHERE id = ?', [$score, $idUser]);
 	}
 	
 	
@@ -353,6 +432,25 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 		$model->emailUser = $user->email;
 		return $model;
 	}
+	
+	
+	
+	/**
+	 * Check if question as accepted answer
+	 *
+	 * @return boolean
+	 */
+	function getHasAcceptedAnswer(array $answers)
+	{
+		$res = array();
+		foreach ($answers as $answer) {
+			$res[] = $answer->accepted;
+		}
+		return in_array(true, $res);
+	}
+	
+	
+	
 	/**
 	 * Get time ago from unix-timestap.
 	 *
