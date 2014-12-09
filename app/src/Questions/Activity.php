@@ -21,4 +21,17 @@ class Activity extends \Anax\Database\CDatabaseModel
 			'timestamp' => time(),
 		]);
 	}
+	
+	
+	
+	/**
+	 * Print activity feed
+	 * @param int limit
+	 *
+	 * @return string html
+	 */
+	public function printActivityFeed($limit = null)
+	{
+
+	}
 }
