@@ -19,6 +19,9 @@ class UsersController implements \Anax\DI\IInjectionAware
 		$this->di->session();
 		$this->users = new \Anax\Users\User();
 		$this->users->setDI($this->di);
+		
+		$this->activities = new \Anax\Questions\Activity();
+		$this->activities->setDI($this->di);
 	}
 	
 	/**
@@ -88,10 +91,11 @@ class UsersController implements \Anax\DI\IInjectionAware
 				$this->views->addString('<output>Användaren du söker finns ej</output>', 'main');
 			}
 		} else {
-			$this->theme->setTitle("Visa användare");
+			$this->theme->setTitle($user->name);
 			$this->views->add('users/view', [
 				'user' => $user,
-				'title' => $user->name
+				'title' => $user->name,
+				'activeties' => $this->activities->printActivityFeed(),
 			]);
 		}
 	}

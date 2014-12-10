@@ -19,5 +19,5 @@
 <?php endif; ?>
  | <a href="<?=$this->url->create('users/delete/' . $user->id);?>">Radera</a>
 </p>
- 
+<?=$activeties?> 
 <p><a class="inherit" href='<?=$this->url->create('users')?>'><i class="fa fa-chevron-left"></i> Tillbaka</a></p>

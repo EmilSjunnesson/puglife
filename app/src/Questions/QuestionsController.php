@@ -150,7 +150,7 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 			
 			$comments = $this->questioncoms->query()
 			->where('idQuestion = ?')
-			->orderBy('timestamp DESC')
+			->orderBy('timestamp')
 			->execute([$id]);
 			
 			// Get the comments user
@@ -175,7 +175,7 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 				$answer = $this->getUser($answer);
 				$answercoms = $this->answercoms->query()
 									->where('idAnswer = ?')
-									->orderBy('timestamp DESC')
+									->orderBy('timestamp')
 									->execute([$answer->id]);
 				foreach ($answercoms as $answercom) {
 					$answercom = $this->getUser($answercom);
@@ -205,6 +205,7 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 	 */
 	public function commentAction($id)
 	{	
+		$activityIdQuestion = $id;
 		if (!isset($id)) {
 			$this->theme->setTitle("Kommentera");
 			$this->views->addString('<output>Kommentaren misslyckades</output>', 'main');
@@ -224,6 +225,8 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 		} elseif ($this->request->getPost('type') == 'answer') {
 			$model = $this->answercoms;
 			$idType = 'idAnswer';
+			$answer = $this->answers->find($id);
+			$activityIdQuestion = $answer->idQuestion;
 		}
 		
 		if(empty($model) || empty($idType)) {
@@ -237,7 +240,7 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 				'idUser' => $this->session->get('userId'),
 				$idType => $id,
 		])) {
-			$this->activities->logActivity($this->request->getPost('type') . 'com' , $model->lastInsertId(), $this->session->get('userId'));
+			$this->activities->logActivity($this->request->getPost('type') . 'com' , $model->lastInsertId(), $this->session->get('userId'), $activityIdQuestion);
 			$this->addUserScore(1, $this->session->get('userId'));
 			$this->response->redirect($this->request->getPost('redirect'));
 		} else {
@@ -274,7 +277,7 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 				'idQuestion' => $id,
 		])) {
 			// Todo log in activity
-			$this->activities->logActivity('answer' , $this->answers->lastInsertId(), $this->session->get('userId'));
+			$this->activities->logActivity('answer' , $this->answers->lastInsertId(), $this->session->get('userId'), $id);
 			$this->addUserScore(5, $this->session->get('userId'));
 			$this->response->redirect($this->request->getPost('redirect'));
 		} else {
@@ -321,10 +324,10 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 				'timestamp' => time(),
 				'idUser'    => $this->session->get('userId'),
 		])) {
-			// Todo log in activity
-			$this->activities->logActivity('ask' , $this->questions->lastInsertId(), $this->session->get('userId'));
-			$this->addUserScore(1, $this->session->get('userId'));
 			$idQuestion = $this->questions->lastInsertId();
+			// Todo log in activity
+			$this->activities->logActivity('ask' , $this->questions->lastInsertId(), $this->session->get('userId'), $idQuestion);
+			$this->addUserScore(1, $this->session->get('userId'));
 			$this->q2t->saveTags($idQuestion, $this->request->getPost('tags'));
 			$this->response->redirect($this->url->create('questions/id/' . $idQuestion));
 		} else {
@@ -342,13 +345,33 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 	public function voteAction($type, $id, $direction)
 	{
 		$lastUrl = $this->request->getLastUrl();
+		
+		if($type == 'answercom') {
+			$idParent = $this->answercoms->find($id);
+			$hash = 'answerreply' . $idParent->idAnswer;
+			$answer = $this->answers->find($idParent->idAnswer);
+			$idQuestion = $answer->idQuestion;
+		} elseif ($type == 'questioncom') {
+			$idParent = $this->questioncoms->find($id);
+			$hash = 'questionreply' . $idParent->idQuestion;
+			$idQuestion = $idParent->idQuestion;
+		} else {
+			$hash = $type . 'reply' . $id;
+			$idQuestion = $id;
+			if($type == 'answer') {
+				$answer = $this->answers->find($id);
+				$idQuestion = $answer->idQuestion;
+			}
+		}
+		
 		$res = $this->activities->query()
 			  	                ->where('type = ?')
 			        			->andWhere('idType = ?')
 			        			->andWhere('idUser = ?')
 			        			->execute([$type . 'vote' . $direction, $id, $this->session->get('userId')]);
 		if (empty($res)) {
-			$this->activities->logActivity($type . 'vote' . $direction, $id, $this->session->get('userId'));
+			
+			$this->activities->logActivity($type . 'vote' . $direction, $id, $this->session->get('userId'), $idQuestion);
 			$this->addUserScore(1, $this->session->get('userId'));
 			$model = $type . 's';
 			$element = $this->$model->find($id);
@@ -369,15 +392,6 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 				$lastUrl = $lastUrl . '?' . parse_url($this->request->getLastUrl(), PHP_URL_QUERY);
 			}
 		}
-		if($type == 'answercom') {
-			$idParent = $this->answercoms->find($id);
-			$hash = 'answerreply' . $idParent->idAnswer;
-		} elseif ($type == 'questioncom') {
-			$idParent = $this->questioncoms->find($id);
-			$hash = 'questionreply' . $idParent->idQuestion;
-		} else {
-			$hash = $type . 'reply' . $id;
-		}
 		$this->response->redirect($lastUrl . '#' . $hash);
 	}
 	
@@ -395,7 +409,7 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 		]);
 		$this->addUserScore(1, $this->session->get('userId'));
 		$this->addUserScore(10, $answer->idUser);
-		$this->activities->logActivity('accepted' , $answer->id, $this->session->get('userId'));
+		$this->activities->logActivity('accepted' , $answer->id, $answer->idUser, $answer->idQuestion);
 		$this->response->redirect($this->request->getLastUrl() . '#answerreply' . $answer->id);
 	}
 	

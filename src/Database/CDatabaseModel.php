@@ -274,6 +274,36 @@ class CDatabaseModel implements \Anax\DI\IInjectionAware
 	
 	
 	/**
+	 * Build the LIMIT by part.
+	 *
+	 * @param string $condition for building the LIMIT part of the query.
+	 *
+	 * @return $this
+	 */
+	public function limit($condition)
+	{
+		$this->db->limit($condition);
+		return $this;
+	}
+	
+	
+	
+	/**
+	 * Build the OFFSET by part.
+	 *
+	 * @param string $condition for building the OFFSET part of the query.
+	 *
+	 * @return $this
+	 */
+	public function offset($condition)
+	{
+		$this->db->offset($condition);
+		return $this;
+	}
+	
+	
+	
+	/**
 	 * Execute the query built.
 	 *
 	 * @param string $query custom query.
