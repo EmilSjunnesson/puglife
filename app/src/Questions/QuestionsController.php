@@ -63,6 +63,8 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 	public function listAction($where = null, $id = null)
 	{
 		$order = 'timestamp';
+		$title = 'Frågor';
+		$tag = null;
 		if ($this->request->getGet('rating', 0)) {
 			$order = 'rating';
 		}
@@ -81,6 +83,9 @@ class QuestionsController implements \Anax\DI\IInjectionAware
  			. ' GROUP BY q.id
  			ORDER BY q.' . $order . ' DESC, timestamp DESC';
  			$questions = $this->vquestions->executeRaw($sql);
+ 			$tag = $this->tags->find($id);
+ 			$tag = $tag->name;
+ 			$title .= ' | ' . $tag;
 		} else {
 			$questions = $this->vquestions->query()
 						->orderby($order . ' DESC, timestamp DESC')
@@ -96,12 +101,17 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 		
 		$timeAgo = function ($time) {return $this->ago($time);};
 		
-		$this->theme->setTitle("Frågor");
+		$this->theme->setTitle($title);
 		$this->views->add('questions/list', [
-				'title' => "Frågor",
+				'title' => $title,
 				'questions'	=> $questions,
 				'timeAgo' => $timeAgo,
 		]);
+		$this->views->add('questions/sidebar', [
+				'tag' => $tag,
+				'order'	=> $order,
+				'type' => 'list',
+		], 'sidebar');
 	}
 	
 	
@@ -193,6 +203,9 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 					'timeAgo'  => $timeAgo,
 					'popup'    => $popup
 			]);
+			$this->views->add('questions/sidebar', [
+					'type' => 'view',
+			], 'sidebar');
 		}
 	}
 	
