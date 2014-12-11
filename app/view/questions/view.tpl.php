@@ -16,7 +16,7 @@
 	<?php endforeach; ?>
 	</div>
 	<div class="user-info">
-		<span class="ago">frågade <?=$timeAgo($question->timestamp)?></span>
+		<span class="ago">frågade <?=$this->time->ago($question->timestamp)?></span>
 		<div>
 			<img src="http://www.gravatar.com/avatar/<?=md5(strtolower(trim($question->emailUser)));?>.jpg?s=50&amp;d=mm" alt="gravatar bild" />
 			<p><a href="<?=$this->url->create('users/id/' . $question->idUser)?>"><?=$question->nameUser?></a><br>
@@ -32,7 +32,7 @@
 	 . ($comment->rating > 0 ? '<span class="comment-rating">+' . $comment->rating . ' | </span> ' : null)
 	 . $this->textFilter->doFilter($comment->content, 'markdown') . ' – <a href="'
 	 . $this->url->create('users/id/' . $comment->idUser) . '">' . $comment->nameUser . '</a> '
-	 . $timeAgo($comment->timestamp)?>
+	 . $this->time->ago($comment->timestamp)?>
 	</div>
 	<?php endforeach; ?>
 	<div class="reply">
@@ -76,7 +76,7 @@
 	</div>
 	<div class="content"><?=$this->textFilter->doFilter($answer->content, 'markdown')?></div>
 	<div class="user-info">
-		<span class="ago">svarade <?=$timeAgo($answer->timestamp)?></span>
+		<span class="ago">svarade <?=$this->time->ago($answer->timestamp)?></span>
 		<div>
 			<img src="http://www.gravatar.com/avatar/<?=md5(strtolower(trim($answer->emailUser)));?>.jpg?s=50&amp;d=mm" alt="gravatar bild" />
 			<p><a href="<?=$this->url->create('users/id/' . $answer->idUser)?>"><?=$answer->nameUser?></a><br>
@@ -92,7 +92,7 @@
 	 . ($comment->rating > 0 ? '<span class="comment-rating">+' . $comment->rating . ' | </span> ' : null)
 	 . $this->textFilter->doFilter($comment->content, 'markdown') . ' – <a href="'
 	 . $this->url->create('users/id/' . $comment->idUser) . '">' . $comment->nameUser . '</a> '
-	 . $timeAgo($comment->timestamp)?>
+	 . $this->time->ago($comment->timestamp)?>
 	</div>
 	<?php endforeach; ?>
 	<div class="reply">

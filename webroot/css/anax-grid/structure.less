@@ -87,6 +87,7 @@ html.pug {
   		background-image: url('../../img/pattern.png');
   		background-attachment: fixed;
   		font-family: helvetica;
+  		color: #333333;
 	}
 	
 	#toolbar {
@@ -116,6 +117,23 @@ html.pug {
 	
 	#wrapper {
 
+	}	
+	
+	h1 {
+  		font-family: run;
+  		color: #A34141;
+	}
+	
+	h3 {
+  		font-family: arial;
+	}
+	
+	.home {
+		.column(@columns / 2);
+		margin-bottom: @magicNumber;
+		height: 200px;
+		background: red;
+		float: left;
 	}
 	
 	.golden {
@@ -124,5 +142,9 @@ html.pug {
 	
 	.accept-green {
 		color: #46B525;
+	}
+	
+	.large {
+		font-size: large;
 	}
 }

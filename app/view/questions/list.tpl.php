@@ -15,7 +15,7 @@
 	<?php endforeach; ?>
 	</div>
 	<div class="user-info">
-		<span class="ago">frågade <?=$timeAgo($question->timestamp)?></span>
+		<span class="ago">frågade <?=$this->time->ago($question->timestamp)?></span>
 		<div>
 			<img src="http://www.gravatar.com/avatar/<?=md5(strtolower(trim($question->emailUser)));?>.jpg?s=50&amp;d=mm" alt="gravatar bild" />
 			<p><a href="<?=$this->url->create('users/id/' . $question->idUser)?>"><?=$question->nameUser?></a><br>

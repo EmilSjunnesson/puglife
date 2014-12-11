@@ -28,5 +28,17 @@ class CDIFactory extends CDIFactoryDefault
 			$users->setDI($this);
 			return $users;
 		});
+		
+		$this->setShared('time', function () {
+			$filter = new \Anax\Content\CTime();
+			$filter->setDI($this);
+			return $filter;
+		});
+		
+		$this->setShared('activities', function () {
+			$activities = new \Anax\Questions\Activity();
+			$activities->setDI($this);
+			return $activities;
+		});
 	}
 }

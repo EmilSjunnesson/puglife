@@ -99,13 +99,10 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 			$question->tags = array_combine(explode(',', $question->idTag), explode(',', $question->tag));
 		}
 		
-		$timeAgo = function ($time) {return $this->ago($time);};
-		
 		$this->theme->setTitle($title);
 		$this->views->add('questions/list', [
 				'title' => $title,
 				'questions'	=> $questions,
-				'timeAgo' => $timeAgo,
 		]);
 		$this->views->add('questions/sidebar', [
 				'tag' => $tag,
@@ -123,18 +120,24 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 	 */
 	public function tagsAction()
 	{
+		$order = 'name';
+		if ($this->request->getGet('count', 0)) {
+			$order = 'count DESC';
+		}
+		
 		$sql = 'SELECT puglife_tag.*, 
 				COUNT(puglife_question2tag.idQuestion) AS count 
 				FROM puglife_tag JOIN puglife_question2tag 
 				ON puglife_tag.id = puglife_question2tag.idTag 
 				GROUP BY puglife_tag.id 
-				ORDER BY count DESC';
+				ORDER BY ' . $order;
 		$tags = $this->tags->executeRaw($sql);
 		
 		$this->theme->setTitle("Taggar");
 		$this->views->add('questions/tags', [
-				'tags' => $tags,
-		]);
+				'tags'  => $tags,
+				'order' => $order,
+		], 'flash');
 	}
 	/**
 	 * List question with id.
@@ -193,14 +196,11 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 				$answer->comments = $answercoms;
 			}
 			
-			$timeAgo = function ($time) {return $this->ago($time);};
-			
 			$this->theme->setTitle($question->title);
 			$this->views->add('questions/view', [
 					'question' => $question,
 					'comments' => $comments,
 					'answers'  => $answers,
-					'timeAgo'  => $timeAgo,
 					'popup'    => $popup
 			]);
 			$this->views->add('questions/sidebar', [
@@ -474,51 +474,5 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 			$res[] = $answer->accepted;
 		}
 		return in_array(true, $res);
-	}
-	
-	
-	
-	/**
-	 * Get time ago from unix-timestap.
-	 *
-	 * @return string
-	 */
-	function ago($time)
-	{
-		$periods = array("sekund", "minut", "timme", "dag", "vecka", "månad", "år", "årtionde");
-		$lengths = array("60","60","24","7","4.35","12","10");
-	
-		$now = time();
-	
-		$difference     = $now - $time;
-		$tense         = "sedan";
-	
-		if($difference < 10) {
-			return "alldeles nyss";
-		}
-	
-		for($j = 0; $difference >= $lengths[$j] && $j < count($lengths)-1; $j++) {
-			$difference /= $lengths[$j];
-		}
-	
-		$difference = round($difference);
-	
-		if($difference != 1) {
-			if ($periods[$j] == "timme") {
-				$periods[$j] = "timmar";
-			} elseif($periods[$j] == "dag") {
-				$periods[$j].= "ar";
-			} elseif($periods[$j] == "vecka") {
-				$periods[$j] = "veckor";
-			} elseif($periods[$j] == "år") {
-					
-			} elseif($periods[$j] == "årtionde") {
-				$periods[$j].= "n";
-			} else {
-				$periods[$j].= "er";
-			}
-		}
-	
-		return "för $difference $periods[$j] $tense ";
 	}
 }

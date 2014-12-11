@@ -2224,6 +2224,7 @@ html.pug body {
   background-image: url('../../img/pattern.png');
   background-attachment: fixed;
   font-family: helvetica;
+  color: #333333;
 }
 html.pug #toolbar {
   text-align: right;
@@ -2246,11 +2247,30 @@ html.pug #header {
 html.pug #navbar {
   font-family: arial, sans-serif;
 }
+html.pug h1 {
+  font-family: run;
+  color: #A34141;
+}
+html.pug h3 {
+  font-family: arial;
+}
+html.pug .home {
+  display: inline;
+  float: left;
+  width: 46.666666666667%;
+  margin: 0 1.6666666666667%;
+  margin-bottom: 22px;
+  height: 200px;
+  background: red;
+}
 html.pug .golden {
   color: #C39B00;
 }
 html.pug .accept-green {
   color: #46B525;
+}
+html.pug .large {
+  font-size: large;
 }
 @media (max-width: 767px) {
   div[id^="footer-col-"] {
@@ -2461,7 +2481,7 @@ figure.rounded img {
   border-radius: 50px;
 }
 .question {
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid #C2C2C2;
   *zoom: 1;
   margin-bottom: 22px;
   position: relative;
@@ -2634,6 +2654,75 @@ textarea {
 }
 .write-answer textarea {
   height: 100px;
+}
+.user {
+  display: table-cell;
+  vertical-align: middle;
+  float: left;
+  display: inline;
+  width: 21.666666666667%;
+  margin: 0 1.6666666666667%;
+  background: #EEEEEE;
+  margin-bottom: 22px;
+}
+.user img {
+  vertical-align: middle;
+  float: left;
+  margin-right: 0.5em;
+}
+h1.users {
+  display: inline-block;
+  margin-bottom: 22px;
+  margin-right: 0.5em;
+}
+.profile img {
+  float: left;
+  margin-right: 1em;
+}
+.activities {
+  float: left;
+  width: 100%;
+  border-top: 1px solid #C2C2C2;
+}
+.activity {
+  border-bottom: 1px solid #C2C2C2;
+  padding-bottom: 0.5em;
+  padding-top: 0.5em;
+}
+.activity a {
+  color: #A34141;
+  text-decoration: none;
+}
+.activity a:hover {
+  text-decoration: underline;
+}
+.profile-sidebar {
+  background: #EEEEEE;
+  padding: 0.5em;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 1em;
+}
+.profile-sidebar h3 {
+  text-align: center;
+  margin-bottom: 0;
+}
+.profile-sidebar p {
+  margin-bottom: 0;
+  border-top: 1px solid #C2C2C2;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+.profile-sidebar a {
+  text-decoration: none;
+  color: #A34141;
+}
+.profile-sidebar a:hover {
+  text-decoration: underline;
+  color: #A34141;
+}
+.smaller {
+  color: #808185;
 }
 .bootstrap-tagsinput {
   background-color: #fff;

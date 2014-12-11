@@ -1,23 +1,22 @@
+<div class="profile">
 <h1><?=$title?></h1>
- 
-<p>Acronym: <?=$user->acronym?></p>
-<p>Email: <?=$user->email?></p>
-<p>Status: <?=$user->deleted == null ? $user->active == null ? "inaktiv" : "aktiv" : "raderad"?></p>
-<p>Skapad: <?=$user->created?></p>
 
-<p>
-<a href="<?=$this->url->create('users/update/' . $user->id);?>">Updatera</a>
-<?php if($user->deleted == null) : ?>
-<?php if($user->active == null) : ?>
- | <a href="<?=$this->url->create('users/activate/' . $user->id);?>">Aktivera</a>
-<?php else : ?> 
- | <a href="<?=$this->url->create('users/deactivate/' . $user->id);?>">Deaktivera</a>
+<img src="http://www.gravatar.com/avatar/<?=md5(strtolower(trim($user->email)));?>.jpg?s=150&amp;d=mm" alt="gravatar bild" />
+
+<p>Poäng: <span class="golden"><i class="fa fa-star"></i></span> <?=$user->score?></p>
+<p>Email: <?=$user->email?></p>
+<p>Skapad: <?=$user->created?></p>
+<?php if($user->id == $this->session->get('userId')) : ?>
+	<p><a href="<?=$this->url->create('users/update/' . $user->id);?>"><i class="fa fa-pencil-square-o"></i> Redigera profil</a></p>
+<?php else : ?>
+	<p>&nbsp;</p>
 <?php endif; ?>
- | <a href="<?=$this->url->create('users/soft-delete/' . $user->id);?>">Soft delete</a>
-<?php else : ?> 
- | <a href="<?=$this->url->create('users/undo-soft-delete/' . $user->id);?>">Återställ delete</a>
+<h3>Senaste aktivitet</h3>
+<div class="activities">
+<?php if(!empty($activeties)) : ?>
+	<?=$activeties?>
+<?php else : ?>
+	<div class="activity">Användaren har inte utfört någon aktivitet ännu</div>	
 <?php endif; ?>
- | <a href="<?=$this->url->create('users/delete/' . $user->id);?>">Radera</a>
-</p>
-<?=$activeties?> 
-<p><a class="inherit" href='<?=$this->url->create('users')?>'><i class="fa fa-chevron-left"></i> Tillbaka</a></p>
+</div>
+</div>

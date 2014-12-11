@@ -12,29 +12,38 @@ $app->theme->configure(ANAX_APP_PATH . 'config/theme-grid.php');
 $app->theme->setVariable('title', "Puglife");
 
 $app->url->setUrlType(\Anax\Url\CUrl::URL_CLEAN);
-
-$comments = new \Emsf14\Comments\CComments($app);
  
-$app->router->add('', function() use ($app, $comments) {
-                
+$app->router->add('', function() use ($app) {
+	
+	$questions = $app->questions->query()
+					  ->limit(5)
+					  ->orderBy('timestamp DESC')
+					  ->execute();
+	
+	$sql = 'SELECT puglife_tag.*, 
+				COUNT(puglife_question2tag.idQuestion) AS count 
+				FROM puglife_tag JOIN puglife_question2tag 
+				ON puglife_tag.id = puglife_question2tag.idTag 
+				GROUP BY puglife_tag.id
+				ORDER BY count DESC
+				LIMIT 20';
+	$tags = $app->questions->executeRaw($sql);
+	
+	$users = $app->users->query()
+						->limit(5)
+						->orderBy('score DESC')
+						->execute();
+	
+	$activities = $app->activities->printActivityFeed(10);
+	
     $app->theme->setTitle("Hem");
- 
-    $content = $app->fileContent->get('home.md');
-    $content = $app->textFilter->doFilter($content, 'shortcode, markdown');
- 
-    $byline = $app->fileContent->get('byline.md');
-    $byline = $app->textFilter->doFilter($byline, 'shortcode, markdown');
- 
-//     $app->views->add('me/page', [
-//         'content' => $content,
-//         'byline' => $byline,
-//     ]);
-    
-    $app->views->addString($content . $byline, 'main');
-    
-    // adds comments at the bottom of the page
-    $id = md5($app->request->getCurrentUrlWithoutQuery());
-    $comments->displayComments($id);
+    $app->views->add('default/home', [
+    		'title' => 'Välkommen',
+    		'questions' => $questions,
+    		'tags' => $tags,
+    		'users' => $users,
+    		'activities' => $activities,
+    ], 'flash');
 
 });
 

@@ -71,7 +71,7 @@ class Activity extends \Anax\Database\CDatabaseModel
 			$html .= '<div class="activity">';
 			$html .= '<a href="' . $this->url->create('users/id/' . $activty->idUser) . '">' . $user[0]->name . '</a>';
 			$html .= $this->getTypeText($activty->type, $activty->idType, $activty->idQuestion);
-			$html .= ' - ' . $this->ago($activty->timestamp);
+			$html .= ' - ' . $this->time->ago($activty->timestamp);
 			$html .= '</div>';
 		}
 		return $html;
@@ -147,51 +147,5 @@ class Activity extends \Anax\Database\CDatabaseModel
 				break;
 		}
 		return $text;
-	}
-	
-	
-	
-	/**
-	 * Get time ago from unix-timestap.
-	 *
-	 * @return string
-	 */
-	function ago($time)
-	{
-		$periods = array("sekund", "minut", "timme", "dag", "vecka", "månad", "år", "årtionde");
-		$lengths = array("60","60","24","7","4.35","12","10");
-	
-		$now = time();
-	
-		$difference     = $now - $time;
-		$tense         = "sedan";
-	
-		if($difference < 10) {
-			return "alldeles nyss";
-		}
-	
-		for($j = 0; $difference >= $lengths[$j] && $j < count($lengths)-1; $j++) {
-			$difference /= $lengths[$j];
-		}
-	
-		$difference = round($difference);
-	
-		if($difference != 1) {
-			if ($periods[$j] == "timme") {
-				$periods[$j] = "timmar";
-			} elseif($periods[$j] == "dag") {
-				$periods[$j].= "ar";
-			} elseif($periods[$j] == "vecka") {
-				$periods[$j] = "veckor";
-			} elseif($periods[$j] == "år") {
-					
-			} elseif($periods[$j] == "årtionde") {
-				$periods[$j].= "n";
-			} else {
-				$periods[$j].= "er";
-			}
-		}
-	
-		return "för $difference $periods[$j] $tense ";
 	}
 }

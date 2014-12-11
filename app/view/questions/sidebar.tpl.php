@@ -1,6 +1,6 @@
 <div class="sidebar">
 <?php if($type === 'view') : ?>
-<p><a href="<?=$this->url->create($this->request->getLastUrl())?>">Tillbaka</a></p>
+<p><a href="<?=$this->url->create($this->request->getLastUrl())?>"><i class="fa fa-chevron-left"></i> Tillbaka</a></p>
 <?php elseif($type === 'list') : ?>
 <?php if(isset($tag)) : ?>
 <p><a style="color: red;" href="<?=$this->url->create('questions/list?' . parse_url($this->request->getCurrentUrl(), PHP_URL_QUERY))?>"><i class="fa fa-times"></i></a> sluta filtrera efter taggen (<?=$tag?>)</p>

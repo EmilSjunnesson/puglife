@@ -22,6 +22,9 @@ class UsersController implements \Anax\DI\IInjectionAware
 		
 		$this->activities = new \Anax\Questions\Activity();
 		$this->activities->setDI($this->di);
+		
+		$this->answers = new \Anax\Questions\Answer();
+		$this->answers->setDI($this->di);
 	}
 	
 	/**
@@ -50,15 +53,22 @@ class UsersController implements \Anax\DI\IInjectionAware
 	 */
 	public function listAction()
 	{	
+		$order = 'name';
+		if ($this->request->getGet('score', 0)) {
+			$order = 'score DESC';
+		}
+		
 		$this->session->remove('form-save');
-		$all = $this->users->findAll();
+		$all = $this->users->query()
+						   ->orderBy($order)
+						   ->execute();
 
 		$this->theme->setTitle("Alla användare");
 		$this->views->add('users/list-all', [
 				'users' => $all,
-				'title' => "Alla användare",
-				'status' => true
-		]);
+				'title' => "Användare",
+				'order'	=> $order,
+		], 'flash');
 	}
 	
 	
@@ -83,6 +93,25 @@ class UsersController implements \Anax\DI\IInjectionAware
 		
 		$user = $this->users->find($id);
 		
+		$questions = $this->questions->query()
+									 ->where('idUser = ?')
+									 ->limit(5)
+									 ->orderBy('timestamp DESC')
+									 ->execute([$id]);
+		
+		$answers = $this->answers->query()
+									 ->where('idUser = ?')
+									 ->limit(5)
+									 ->orderBy('timestamp DESC')
+									 ->execute([$id]);
+		
+		foreach ($answers as $answer) {
+			$q = $this->questions->query('title')
+								 ->where('id = ?')
+								 ->execute([$answer->idQuestion]);
+			$answer->title = $q[0]->title;
+		}
+		
 		if (empty($user)) {
 			if ($self) {
 				$this->response->redirect($this->url->create('users/login'));
@@ -95,8 +124,12 @@ class UsersController implements \Anax\DI\IInjectionAware
 			$this->views->add('users/view', [
 				'user' => $user,
 				'title' => $user->name,
-				'activeties' => $this->activities->printActivityFeed(),
-			]);
+				'activeties' => $this->activities->printActivityFeed(10, $id),	
+			], 'main');
+			$this->views->add('users/sidebar', [
+					'questions' => $questions,
+					'answers' => $answers,
+			], 'sidebar');
 		}
 	}
 
@@ -148,6 +181,9 @@ class UsersController implements \Anax\DI\IInjectionAware
     {
     	if (!isset($id)) {
     		die("Missing id");
+    	}
+    	if ($this->session->get('userId') !== $id) {
+    		die("You can only update your own profile");
     	}
     	$this->form($id);
     }
