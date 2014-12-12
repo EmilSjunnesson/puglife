@@ -2228,12 +2228,21 @@ html.pug body {
 }
 html.pug #toolbar {
   text-align: right;
-  background: lightgrey;
+  background: #333333;
   padding-right: 0.833333%;
 }
 html.pug .contain {
   max-width: 960px;
   margin: 0 auto;
+  padding: 0.5em;
+  color: white;
+}
+html.pug .contain a {
+  color: white;
+  text-decoration: none;
+}
+html.pug .contain a:hover {
+  text-decoration: underline;
 }
 html.pug #header {
   background-image: url('../../img/header.jpg');
@@ -2254,6 +2263,24 @@ html.pug h1 {
 html.pug h3 {
   font-family: arial;
 }
+html.pug .switch {
+  background: #A34141;
+  color: white;
+  padding: 0.5em;
+}
+html.pug .switch a {
+  color: white;
+  text-decoration: none;
+  padding: 0.25em;
+}
+html.pug .switch a:hover {
+  background: #D68080;
+  color: white;
+}
+html.pug .switch .active-sort {
+  color: #A34141;
+  background: white;
+}
 html.pug .home {
   display: inline;
   float: left;
@@ -2271,6 +2298,13 @@ html.pug .accept-green {
 }
 html.pug .large {
   font-size: large;
+}
+html.pug .plain-link {
+  text-decoration: none;
+  color: inherit;
+}
+html.pug .plain-link:hover {
+  text-decoration: underline;
 }
 @media (max-width: 767px) {
   div[id^="footer-col-"] {
@@ -2532,6 +2566,14 @@ figure.rounded img {
 }
 .user-info {
   float: right;
+  color: #999999;
+}
+.user-info a {
+  color: #A34141;
+  text-decoration: none;
+}
+.user-info a:hover {
+  text-decoration: underline;
 }
 .user-info img {
   float: left;
@@ -2556,11 +2598,9 @@ figure.rounded img {
   background: #D68080;
 }
 .question-single {
-  border-bottom: 1px solid #eaeaea;
   *zoom: 1;
-  margin-bottom: 22px;
+  padding-bottom: 22px;
   position: relative;
-  color: #999999;
 }
 .question-single:before,
 .question-single:after {
@@ -2577,6 +2617,13 @@ figure.rounded img {
 }
 .question-single:after {
   clear: both;
+}
+.comment a {
+  text-decoration: none;
+  color: #A34141;
+}
+.comment a:hover {
+  text-decoration: underline;
 }
 .rating {
   float: left;
@@ -2586,6 +2633,7 @@ figure.rounded img {
   font-size: xx-large;
   line-height: 1px;
   padding-top: 0.2em;
+  color: #818185;
 }
 .question-single .tags {
   float: right;
@@ -2640,14 +2688,31 @@ figure.rounded img {
   float: right;
   display: block;
   width: 90%;
+  font-size: smaller;
+  border-top: 1px solid #C2C2C2;
 }
 .comment p {
   display: inline;
+}
+.order-answers {
+  float: right;
+}
+.answer {
+  margin-bottom: 22px;
+  border-bottom: 1px solid #C2C2C2;
+  padding-bottom: 22px;
 }
 .reply {
   float: right;
   display: block;
   width: 90%;
+  border-top: 1px solid #C2C2C2;
+}
+.reply a {
+  color: #A34141;
+}
+.reply a:hover {
+  text-decoration: none;
 }
 textarea {
   width: 100%;
@@ -2655,7 +2720,27 @@ textarea {
 .write-answer textarea {
   height: 100px;
 }
-.user {
+.write-answer h3 {
+  margin-bottom: 0;
+}
+.answers header {
+  border-bottom: 1px solid #C2C2C2;
+  margin-bottom: 22px;
+}
+.ask-button {
+  background: #A34141;
+  text-align: center;
+  padding: 0.5em;
+}
+.ask-button a {
+  color: white;
+  text-decoration: none;
+}
+.ask-button:hover {
+  background: #D68080;
+}
+.user,
+.user-home {
   display: table-cell;
   vertical-align: middle;
   float: left;
@@ -2664,11 +2749,22 @@ textarea {
   margin: 0 1.6666666666667%;
   background: #EEEEEE;
   margin-bottom: 22px;
+  color: #808185;
 }
-.user img {
+.user img,
+.user-home img {
   vertical-align: middle;
   float: left;
   margin-right: 0.5em;
+}
+.user a,
+.user-home a {
+  color: #A34141;
+  text-decoration: none;
+}
+.user a:hover,
+.user-home a:hover {
+  text-decoration: underline;
 }
 h1.users {
   display: inline-block;
@@ -2723,6 +2819,9 @@ h1.users {
 }
 .smaller {
   color: #808185;
+}
+.user-home {
+  width: 100%;
 }
 .bootstrap-tagsinput {
   background-color: #fff;

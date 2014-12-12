@@ -137,6 +137,7 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 		$this->views->add('questions/tags', [
 				'tags'  => $tags,
 				'order' => $order,
+				'title' => 'Taggar',
 		], 'flash');
 	}
 	/**

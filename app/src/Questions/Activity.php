@@ -31,7 +31,7 @@ class Activity extends \Anax\Database\CDatabaseModel
 	 *
 	 * @return string html
 	 */
-	public function printActivityFeed($limit = null, $idUser = null)
+	public function printActivityFeed($limit = null, $idUser = null, $newLine = false)
 	{	
 		if (isset($limit) && isset($idUser)) {
 			if ((!is_numeric($limit)) || (!is_numeric($limit))) {
@@ -71,7 +71,8 @@ class Activity extends \Anax\Database\CDatabaseModel
 			$html .= '<div class="activity">';
 			$html .= '<a href="' . $this->url->create('users/id/' . $activty->idUser) . '">' . $user[0]->name . '</a>';
 			$html .= $this->getTypeText($activty->type, $activty->idType, $activty->idQuestion);
-			$html .= ' - ' . $this->time->ago($activty->timestamp);
+			$html .= $newLine ?  '<br>' : ' ';
+			$html .= '- ' . $this->time->ago($activty->timestamp);
 			$html .= '</div>';
 		}
 		return $html;

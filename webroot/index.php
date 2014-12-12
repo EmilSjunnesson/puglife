@@ -19,6 +19,12 @@ $app->router->add('', function() use ($app) {
 					  ->limit(5)
 					  ->orderBy('timestamp DESC')
 					  ->execute();
+	// Get the questions user
+	foreach ($questions as $question) {
+		$question = $app->QuestionsController->getUser($question);
+		$question->countAnswer = $app->questions->getAnswerCount($question->id);
+		$question->tags = array_combine(explode(',', $question->idTag), explode(',', $question->tag));
+	}
 	
 	$sql = 'SELECT puglife_tag.*, 
 				COUNT(puglife_question2tag.idQuestion) AS count 
@@ -34,23 +40,34 @@ $app->router->add('', function() use ($app) {
 						->orderBy('score DESC')
 						->execute();
 	
-	$activities = $app->activities->printActivityFeed(10);
+	$activities = $app->activities->printActivityFeed(5, null, true);
 	
     $app->theme->setTitle("Hem");
-    $app->views->add('default/home', [
-    		'title' => 'Välkommen',
-    		'questions' => $questions,
-    		'tags' => $tags,
+    $app->views->add('questions/tags', [
+    		'tags'  => $tags,
+    		'title' => 'Populäraste taggarna',
+    ], 'main');
+    $app->views->addString('<p>&nbsp;</p>', 'main');
+    $app->views->add('questions/list', [
+				'title' => 'Senaste frågorna',
+				'questions'	=> $questions,
+		], 'main');
+    $app->views->add('default/sidebar-home', [
     		'users' => $users,
     		'activities' => $activities,
-    ], 'flash');
+    ], 'sidebar');
 
 });
 
 $app->router->add('about', function() use ($app) {
 	
 	$app->theme->setTitle("Om oss");
-	
+	$app->views->add('default/article', [
+			'content' => $app->fileContent->get('info.html'),
+	], 'main');
+	$app->views->add('default/article', [
+			'content' => $app->fileContent->get('stars-info.html'),
+	], 'sidebar');
 });
 
 $app->router->add('source', function() use ($app) {
@@ -125,7 +142,7 @@ $app->router->add('setup', function() use ($app) {
 $app->router->add('rss', function() use ($app) {
 
 	$feed = new \Emsf14\library\CRSS([
-			'http://www.kissies.se/feed'
+			'http://pugdomination.tumblr.com/rss'
 	]);
 	
 	$app->theme->setTitle("RSS feed");

@@ -1,16 +1,26 @@
-.user {
+.user, .user-home {
 	display: table-cell;
 	vertical-align: middle;
 	float: left;
 	.column(@columns / 4);
 	background: #EEEEEE;
 	margin-bottom: @magicNumber;
+	color: #808185;
 }
 
-.user img {
+.user img, .user-home img {
 	vertical-align: middle;
 	float: left;
 	margin-right: 0.5em;
+}
+
+.user a, .user-home a {
+	color: #A34141;
+	text-decoration: none;
+}
+
+.user a:hover, .user-home a:hover {
+	text-decoration: underline;
 }
 
 h1.users {
@@ -77,4 +87,8 @@ h1.users {
 
 .smaller {
 	color: #808185;
+}
+
+.user-home {
+	width: 100%;
 }

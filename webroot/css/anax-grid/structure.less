@@ -92,13 +92,24 @@ html.pug {
 	
 	#toolbar {
 		text-align: right;
-		background: lightgrey;
+		background: #333333;
 		padding-right: 0.833333%;
 	}
 	
 	.contain {
 		max-width: 960px;
 		margin: 0 auto;
+		padding: 0.5em;
+		color: white;
+	}
+	
+	.contain a {
+		color: white;
+		text-decoration: none;
+	}
+	
+	.contain a:hover {
+		text-decoration: underline;
 	}
 	
 	#header {
@@ -128,6 +139,28 @@ html.pug {
   		font-family: arial;
 	}
 	
+	.switch {
+		background: #A34141;
+		color: white;
+		padding: 0.5em;
+	}
+	
+	.switch a {
+		color: white;
+		text-decoration: none;
+		padding: 0.25em;	
+	}
+	
+	.switch a:hover {
+		background: #D68080;
+		color: white;
+	}
+	
+	.switch .active-sort {
+		color: #A34141;
+		background: white;
+	}
+	
 	.home {
 		.column(@columns / 2);
 		margin-bottom: @magicNumber;
@@ -146,5 +179,14 @@ html.pug {
 	
 	.large {
 		font-size: large;
+	}
+	
+	.plain-link {
+		text-decoration: none;
+		color: inherit;
+	}
+	
+	.plain-link:hover {
+		text-decoration: underline;
 	}
 }

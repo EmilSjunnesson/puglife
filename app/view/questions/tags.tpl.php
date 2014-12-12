@@ -1,8 +1,10 @@
-<h1 class="users">Taggar</h1> 
-Sortera efter: <a <?=$order == 'name' ? 'class="active-sort"' : null?> 
+<h1 class="users"><?=$title?></h1> 
+<?php if(isset($order)) : ?>
+<span class="switch" style="display:inline-block; vertical-align:top">Sortera efter: <a <?=$order == 'name' ? 'class="active-sort"' : null?>
 href="<?=$this->url->create($this->request->getCurrentUrlWithoutQuery())?>">namn</a>
  <a <?=$order == 'count DESC' ? 'class="active-sort"' : null?> 
- href="<?=$this->url->create($this->request->getCurrentUrlWithoutQuery() . '?count=true')?>">popularitet</a>
+ href="<?=$this->url->create($this->request->getCurrentUrlWithoutQuery() . '?count=true')?>">popularitet</a></span>
+<?php endif; ?> 
 <div class="tags">
 <?php foreach ($tags as $tag) : ?>
 <a class="large" href="<?=$this->url->create('questions/list/tag/' . $tag->id)?>"><?=$tag->name?> (<?=$tag->count?>)</a>

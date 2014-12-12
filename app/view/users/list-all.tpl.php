@@ -1,8 +1,8 @@
 <h1 class="users"><?=$title?></h1> 
-Sortera efter: <a <?=$order == 'name' ? 'class="active-sort"' : null?> 
+<span class="switch" style="display:inline-block; vertical-align:top">Sortera efter: <a <?=$order == 'name' ? 'class="active-sort"' : null?> 
 href="<?=$this->url->create($this->request->getCurrentUrlWithoutQuery())?>">namn</a>
  <a <?=$order == 'score DESC' ? 'class="active-sort"' : null?> 
- href="<?=$this->url->create($this->request->getCurrentUrlWithoutQuery() . '?score=true')?>">poäng</a>
+ href="<?=$this->url->create($this->request->getCurrentUrlWithoutQuery() . '?score=true')?>">poäng</a></span>
 <?php if (!empty($users)) : ?>
 <?php foreach ($users as $user) : ?> 
 <div class="user-list">
