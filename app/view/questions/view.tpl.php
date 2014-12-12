@@ -3,9 +3,9 @@
 	<a name="questionreply"></a>
 	<div class="question-main">
 	<div class="rating">
-		<p><?=$this->users->isLoggedin() ? '<a href="' . $this->url->create('questions/vote/question/' . $question->id . '/up') . '">' : null ?><i class="fa fa-sort-asc"></i><?=$this->users->isLoggedin() ? '</a>' : null ?><br>
-			<?=$question->rating?>
-		<br><?=$this->users->isLoggedin() ? '<a href="' . $this->url->create('questions/vote/question/' . $question->id . '/down') . '">' : null ?><i class="fa fa-sort-desc"></i><?=$this->users->isLoggedin() ? '</a>' : null ?></p>
+		<p><?=$this->users->isLoggedin() ? '<a class="plain-link" href="' . $this->url->create('questions/vote/question/' . $question->id . '/up') . '">' : null ?><i class="fa fa-sort-asc"></i><?=$this->users->isLoggedin() ? '</a>' : null ?><br>
+			<span style="color: #333333;"><?=$question->rating?></span>
+		<br><?=$this->users->isLoggedin() ? '<a class="plain-link" href="' . $this->url->create('questions/vote/question/' . $question->id . '/down') . '">' : null ?><i class="fa fa-sort-desc"></i><?=$this->users->isLoggedin() ? '</a>' : null ?></p>
 	</div>
 	<div class="content"><?=$this->textFilter->doFilter($question->content, 'markdown')?></div>
 	<div class=tags>
@@ -57,19 +57,21 @@
 <div class="answers">
 <header>
 <?=$question->countAnswer?> svar
+<span class="order-answers"><a <?=$this->request->getGet('rating', 0) ? null : 'class="active"'?> href="<?=$this->request->getCurrentUrlWithoutQuery()?>#questionreply">Senaste</a><a <?=$this->request->getGet('rating', 0) ? 'class="active"' : null?> href="<?=$this->request->getCurrentUrlWithoutQuery() . '?rating=true'?>#questionreply">Högst rankade</a></span>
 </header>
 <?php foreach ($answers as $answer) : ?>
+<div class="answer">
 	<div class="question-main">
 	<a name="answerreply<?=$answer->id?>"></a>
 	<div class="rating">
-		<p><?=$this->users->isLoggedin() ? '<a href="' . $this->url->create('questions/vote/answer/' . $answer->id . '/up') . '">' : null ?><i class="fa fa-sort-asc"></i><?=$this->users->isLoggedin() ? '</a>' : null ?><br>
-			<?=$answer->rating?>
-		<br><?=$this->users->isLoggedin() ? '<a href="' . $this->url->create('questions/vote/answer/' . $answer->id . '/down') . '">' : null ?><i class="fa fa-sort-desc"></i><?=$this->users->isLoggedin() ? '</a>' : null ?><br>
+		<p><?=$this->users->isLoggedin() ? '<a class="plain-link" href="' . $this->url->create('questions/vote/answer/' . $answer->id . '/up') . '">' : null ?><i class="fa fa-sort-asc"></i><?=$this->users->isLoggedin() ? '</a>' : null ?><br>
+			<span style="color: #333333;"><?=$answer->rating?></span>
+		<br><?=$this->users->isLoggedin() ? '<a class="plain-link" href="' . $this->url->create('questions/vote/answer/' . $answer->id . '/down') . '">' : null ?><i class="fa fa-sort-desc"></i><?=$this->users->isLoggedin() ? '</a>' : null ?><br>
 			<?php if ($answer->accepted == true) : ?>
 				<span class="accept-green" title="Frågeställaren har accpeterat detta svar"><i class="fa fa-check"></i></span>
 			<?php else : ?>
 			<?php if ((!$question->hasAcceptedAnswer == true) && ($question->idUser === $this->session->get('userId'))) : ?>
-				<span class="accept-link" title="Acceptera detta svar"><a href="<?=$this->url->create('questions/accept/' . $answer->id)?>"><i class="fa fa-check"></i></a></span>
+				<span class="accept-link" title="Acceptera detta svar"><a class="plain-link" href="<?=$this->url->create('questions/accept/' . $answer->id)?>"><i class="fa fa-check"></i></a></span>
 			<?php endif; ?>
 			<?php endif; ?>
 		</p>
@@ -113,6 +115,7 @@
 	<?php endif; ?>
 	</div>
 	</div>	
+</div>
 <?php endforeach; ?>
 <a name="bottom"></a>
 </div>

@@ -1,4 +1,4 @@
-<div class="contain">
+<div class="contain smaller">
 <?php if($this->users->isLoggedIn()): ?>
 <a href="<?=$this->url->create('users/id')?>"><?=$this->users->Find($this->session->get('userId'))->name?></a> |
  <a href="<?=$this->url->create('users/logout')?>">Logga ut</a>
