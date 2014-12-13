@@ -16,7 +16,6 @@ class UsersController implements \Anax\DI\IInjectionAware
 	 */
 	public function initialize()
 	{
-		$this->di->session();
 		$this->users = new \Anax\Users\User();
 		$this->users->setDI($this->di);
 		
