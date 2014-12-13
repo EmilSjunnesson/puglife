@@ -48,7 +48,9 @@ class CSession
      */
     public function start($options = [])
     {
-        session_start();
+    	if(session_status() !== PHP_SESSION_ACTIVE) {
+    		session_start();
+    	}
     }
 
 

@@ -91,7 +91,7 @@ class CRouterBasic implements \Anax\DI\IInjectionAware
      */
     public function handle()
     {
-        try {
+    	try {
 
             $query = $this->di->request->getRoute();
             $parts = $this->di->request->getRouteParts();

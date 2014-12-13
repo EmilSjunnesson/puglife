@@ -52,7 +52,9 @@ return [
         [
         	'region' => 'toolbar',
         	'template' => 'me/toolbar', 
-            'data' => [],
+            'data' => [
+            	'loggedIn' => $this->di->users->isLoggedIn(),
+            ],
        		'sort' => -1
         ],
     ],
@@ -76,7 +78,55 @@ return [
     	'style_theme' => 'pug',
 
         // Inline style
-        'style' => null,
+        'style' => '
+    		.order-answers a.active {
+    			border: 1px solid #c2c2c2;
+    			border-bottom: 1px solid white;
+    			background: white;
+    			color: #333333;
+			}
+    		
+    		.order-answers a {
+    			padding: 0.5em;
+    			padding-bottom: 13px;
+    			text-decoration: none;
+    			color: #C5C5C5;
+    			margin-right: 0.5em;
+    			border: 1px solid transparent;
+			}
+    		
+    		.count {
+    			font-weight: bold;
+    			font-size: 24px;
+    		}
+    		
+    		.navbar li.selected-parent, 
+			.navbar li.selected {
+  				color: white; 
+  				background-color:  #333333;
+    			border-color: #333333;
+			}
+    		
+    		.navbar li:hover {
+  				border-color: #333;
+			} 
+    		
+    		.navbar li li.selected {
+ 				color: white; 
+			}
+    		
+    		footer a, .content a {
+    			color: #A34141;
+    		}
+    		
+    		footer a:hover, .content a:hover {
+    			text-decoration: none;
+    		}
+    		
+    		.large {
+    			margin-bottom: 0.5em;
+    		}
+    	',
 
         // Favicon
         'favicon' => 'favicon.ico',

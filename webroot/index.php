@@ -12,7 +12,7 @@ $app->theme->configure(ANAX_APP_PATH . 'config/theme-grid.php');
 $app->theme->setVariable('title', "Puglife");
 
 $app->url->setUrlType(\Anax\Url\CUrl::URL_CLEAN);
- 
+
 $app->router->add('', function() use ($app) {
 	
 	$questions = $app->questions->query()

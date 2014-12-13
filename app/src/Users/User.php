@@ -32,11 +32,6 @@ class User extends \Anax\Database\CDatabaseModel
 	 */
 	public function isLoggedIn()
 	{
-		$val = $this->session->get('userId', -1);
-		if ($val > 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return $this->session->has('userId');
 	}
 }

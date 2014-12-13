@@ -52,7 +52,7 @@ class UsersController implements \Anax\DI\IInjectionAware
 	 */
 	public function listAction()
 	{	
-		$order = 'name';
+		$order = 'name COLLATE utf8_swedish_ci';
 		if ($this->request->getGet('score', 0)) {
 			$order = 'score DESC';
 		}

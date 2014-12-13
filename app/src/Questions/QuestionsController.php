@@ -120,7 +120,7 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 	 */
 	public function tagsAction()
 	{
-		$order = 'name';
+		$order = 'name COLLATE utf8_swedish_ci';
 		if ($this->request->getGet('count', 0)) {
 			$order = 'count DESC';
 		}
@@ -202,7 +202,8 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 					'question' => $question,
 					'comments' => $comments,
 					'answers'  => $answers,
-					'popup'    => $popup
+					'popup'    => $popup,
+					'loggedIn' => $this->users->isLoggedIn(),
 			]);
 			$this->views->add('questions/sidebar', [
 					'type' => 'view',

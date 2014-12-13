@@ -3,9 +3,9 @@
 	<a name="questionreply"></a>
 	<div class="question-main">
 	<div class="rating">
-		<p><?=$this->users->isLoggedin() ? '<a class="plain-link" href="' . $this->url->create('questions/vote/question/' . $question->id . '/up') . '">' : null ?><i class="fa fa-sort-asc"></i><?=$this->users->isLoggedin() ? '</a>' : null ?><br>
+		<p><?=$loggedIn ? '<a class="plain-link" href="' . $this->url->create('questions/vote/question/' . $question->id . '/up') . '">' : null ?><i class="fa fa-sort-asc"></i><?=$loggedIn ? '</a>' : null ?><br>
 			<span style="color: #333333;"><?=$question->rating?></span>
-		<br><?=$this->users->isLoggedin() ? '<a class="plain-link" href="' . $this->url->create('questions/vote/question/' . $question->id . '/down') . '">' : null ?><i class="fa fa-sort-desc"></i><?=$this->users->isLoggedin() ? '</a>' : null ?></p>
+		<br><?=$loggedIn ? '<a class="plain-link" href="' . $this->url->create('questions/vote/question/' . $question->id . '/down') . '">' : null ?><i class="fa fa-sort-desc"></i><?=$loggedIn ? '</a>' : null ?></p>
 	</div>
 	<div class="content"><?=$this->textFilter->doFilter($question->content, 'markdown')?></div>
 	<div class=tags>
@@ -27,7 +27,7 @@
 	<div class="comments">
 	<?php foreach ($comments as $comment) : ?>
 	<div class="comment">
-	<?=($this->users->isLoggedin() ? '<a href="' . $this->url->create('questions/vote/questioncom/' . $comment->id . '/up')
+	<?=($loggedIn ? '<a href="' . $this->url->create('questions/vote/questioncom/' . $comment->id . '/up')
 	 . '"><i class="fa fa-thumbs-up"></i></a> | ' : null)
 	 . ($comment->rating > 0 ? '<span class="comment-rating">+' . $comment->rating . ' | </span> ' : null)
 	 . $this->textFilter->doFilter($comment->content, 'markdown') . ' – <a href="'
@@ -36,7 +36,7 @@
 	</div>
 	<?php endforeach; ?>
 	<div class="reply">
-	<?php if(!$this->users->isLoggedin()) : ?>
+	<?php if(!$loggedIn) : ?>
 		För att kommentera behöver du <a href="<?=$this->url->create('users/login')?>">logga in</a>.
 		 Inte medlem? <a href="<?=$this->url->create('users/register')?>">Registrera dig</a>. 
 	<?php else : ?>
@@ -56,17 +56,17 @@
 </div>
 <div class="answers">
 <header>
-<?=$question->countAnswer?> svar
-<span class="order-answers"><a <?=$this->request->getGet('rating', 0) ? null : 'class="active"'?> href="<?=$this->request->getCurrentUrlWithoutQuery()?>#questionreply">Senaste</a><a <?=$this->request->getGet('rating', 0) ? 'class="active"' : null?> href="<?=$this->request->getCurrentUrlWithoutQuery() . '?rating=true'?>#questionreply">Högst rankade</a></span>
+<span class="count"><?=$question->countAnswer?> svar</span>
+<span class="order-answers"><a <?=$this->request->getGet('rating', 0) ? 'class="active"' : null?> href="<?=$this->request->getCurrentUrlWithoutQuery() . '?rating=true'?>#questionreply">Högst rankade</a><a <?=$this->request->getGet('rating', 0) ? null : 'class="active"'?> href="<?=$this->request->getCurrentUrlWithoutQuery()?>#questionreply">Senaste</a></span>
 </header>
 <?php foreach ($answers as $answer) : ?>
 <div class="answer">
 	<div class="question-main">
 	<a name="answerreply<?=$answer->id?>"></a>
 	<div class="rating">
-		<p><?=$this->users->isLoggedin() ? '<a class="plain-link" href="' . $this->url->create('questions/vote/answer/' . $answer->id . '/up') . '">' : null ?><i class="fa fa-sort-asc"></i><?=$this->users->isLoggedin() ? '</a>' : null ?><br>
+		<p><?=$loggedIn ? '<a class="plain-link" href="' . $this->url->create('questions/vote/answer/' . $answer->id . '/up') . '">' : null ?><i class="fa fa-sort-asc"></i><?=$loggedIn ? '</a>' : null ?><br>
 			<span style="color: #333333;"><?=$answer->rating?></span>
-		<br><?=$this->users->isLoggedin() ? '<a class="plain-link" href="' . $this->url->create('questions/vote/answer/' . $answer->id . '/down') . '">' : null ?><i class="fa fa-sort-desc"></i><?=$this->users->isLoggedin() ? '</a>' : null ?><br>
+		<br><?=$loggedIn ? '<a class="plain-link" href="' . $this->url->create('questions/vote/answer/' . $answer->id . '/down') . '">' : null ?><i class="fa fa-sort-desc"></i><?=$loggedIn ? '</a>' : null ?><br>
 			<?php if ($answer->accepted == true) : ?>
 				<span class="accept-green" title="Frågeställaren har accpeterat detta svar"><i class="fa fa-check"></i></span>
 			<?php else : ?>
@@ -89,7 +89,7 @@
 	<div class="comments">
 	<?php foreach ($answer->comments as $comment) : ?>
 	<div class="comment">
-	<?=($this->users->isLoggedin() ? '<a href="' . $this->url->create('questions/vote/answercom/' . $comment->id . '/up')
+	<?=($loggedIn ? '<a href="' . $this->url->create('questions/vote/answercom/' . $comment->id . '/up')
 	 . '"><i class="fa fa-thumbs-up"></i></a> | ' : null)
 	 . ($comment->rating > 0 ? '<span class="comment-rating">+' . $comment->rating . ' | </span> ' : null)
 	 . $this->textFilter->doFilter($comment->content, 'markdown') . ' – <a href="'
@@ -98,7 +98,7 @@
 	</div>
 	<?php endforeach; ?>
 	<div class="reply">
-	<?php if(!$this->users->isLoggedin()) : ?>
+	<?php if(!$loggedIn) : ?>
 		För att kommentera behöver du <a href="<?=$this->url->create('users/login')?>">logga in</a>.
 		 Inte medlem? <a href="<?=$this->url->create('users/register')?>">Registrera dig</a>. 
 	<?php else : ?>
@@ -121,9 +121,9 @@
 </div>
 <div class="write-answer">
 <h3>Skriv Svar</h3>
-<?php if(!$this->users->isLoggedin()) : ?>
-	För att svara behöver du <a href="<?=$this->url->create('users/login')?>">logga in</a>.
-		 Inte medlem? <a href="<?=$this->url->create('users/register')?>">Registrera dig</a>. 
+<?php if(!$loggedIn) : ?>
+	<div class="reply">För att svara behöver du <a class="plain-red" href="<?=$this->url->create('users/login')?>">logga in</a>.
+		 Inte medlem? <a class="plain-red" href="<?=$this->url->create('users/register')?>">Registrera dig</a>.</div>
 <?php else : ?>
 	<form method=post>
 		<input type="hidden" value="<?=$this->request->getCurrentUrlWithoutQuery()?><?=$this->request->getGet('rating', 0) ? '?rating=true' : null?>#bottom" name="redirect"/>
