@@ -1,0 +1,27 @@
+div.header a, div.item a {
+	color:#A34141;
+	text-decoration:underline;
+	padding:0 1px;
+}
+ 
+div.header a:hover, div.item a:hover {
+	color:#A34141;
+	text-decoration:none;
+}
+ 
+div.header {
+	border-bottom:1px solid #ccc;
+	height: 2px;
+}
+ 
+div.item {
+	padding:5px 0;
+	border-bottom:1px solid #ccc;
+	width: 500px;
+	margin-left: auto ;
+  	margin-right: auto ;
+}
+
+div.item h2 {
+	font-family: helvetica;
+}

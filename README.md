@@ -6,4 +6,4 @@ Pug life
 
 A site about all things pug
 
-Just download, then upoload on your server. Remeber to change the .https file according to your enviorment. You also need to change the settings in the mysql_conifg file to match your database. 
+Just download, then upoload on your server. Remeber to change the .https file according to your enviorment. You also need to change the settings in the mysql_conifg file to match your database. Make sure the cache folder in vendor/emsf14/rss/scr/library is writable. The file style.less.cache is also writeable. It's in the folder webroot/css/anax-grid.  

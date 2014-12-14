@@ -142,16 +142,16 @@ $app->router->add('setup', function() use ($app) {
 $app->router->add('rss', function() use ($app) {
 
 	$feed = new \Emsf14\library\CRSS([
-			'http://pugdomination.tumblr.com/rss'
+			'http://hellyeahpugs.tumblr.com/rss'
 	]);
 	
-	$app->theme->setTitle("RSS feed");
+	$app->theme->setTitle("I Love Pugs");
     $app->theme->addStylesheet('css/rss.css');
     
     $app->views->add('default/page', [
-    	'title' => 'RSS-flöde',		
-    	'content' => $feed->printFeed(),
-    ]);
+    	'title' => 'I <i class="fa fa-heart"></i> PUGS',		
+    	'content' => 'Detta RSS-flöde finns här för att påminna oss om varför vi älska våra hundar så otroligt mycket.' . $feed->printFeed(),
+    ], 'flash');
 	
 });
 

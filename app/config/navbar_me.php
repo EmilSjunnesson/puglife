@@ -60,11 +60,18 @@ return [
     		'title' => 'Mina senaste frågor och svar'
     	],
     		
-    		// This is a menu item
+    	// This is a menu item
     	'about' => [
     		'text'  =>'Om oss',
     		'url'   => 'about',
     		'title' => 'Information om Pug Life'
+    	],
+    		
+    	// This is a menu item
+    	'rss' => [
+    		'text'  =>'I <i class="fa fa-heart"></i> PUGS',
+    		'url'   => 'rss',
+    		'title' => 'Bilder på söta mopsar'
     	],
     ],
  
