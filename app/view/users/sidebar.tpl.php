@@ -12,7 +12,7 @@
 <h3>Senast givna svar</h3>
 <?php if(!empty($questions)) : ?>
 <?php foreach ($answers As $answer) : ?>
-	<p><a href="<?=$this->url->create('questions/id/' . $answer->idQuestion)?>"><?=$answer->title?></a> <span class="smaller">- <?=$this->time->ago($answer->timestamp)?></span></p>
+	<p><a href="<?=$this->url->create('questions/id/' . $answer->idQuestion . '#answerreply' . $answer->id)?>"><?=$answer->title?></a> <span class="smaller">- <?=$this->time->ago($answer->timestamp)?></span></p>
 <?php endforeach;?>
 <?php else : ?>
 	<p>Användaren har inte svarat på några frågor</p>
